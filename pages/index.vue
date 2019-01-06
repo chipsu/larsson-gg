@@ -21,7 +21,7 @@
         </h2>
         <p>
           My name is Gustav Larsson and I'm a <span class="font-bold text-red">programmer</span>.
-          I can <span class="font-bold text-red">code</span> pretty much anything and currenly working as a <span class="font-bold text-red">full-stack web-developer</span>.
+          I can <span class="font-bold text-red">code</span> pretty much anything and I'm currently working as a <span class="font-bold text-red">full-stack web-developer</span>.
         </p>
       </TextSection>
 
