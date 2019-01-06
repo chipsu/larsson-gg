@@ -1,6 +1,10 @@
-# larsson-gg
+# larsson.gg
 
-> My remarkable Nuxt.js project
+> My personal website, https://larssson.gg/
+
+## Travis
+
+[![Build Status](https://travis-ci.org/chipsu/larsson-gg.svg?branch=master)](https://travis-ci.org/chipsu/larsson-gg)
 
 ## Build Setup
 
