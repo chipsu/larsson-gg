@@ -1,0 +1,8 @@
+version: "2"
+services:
+  web:
+    labels:
+      io.rancher.container.pull_image: always
+    tty: true
+    image: chipu/larsson-gg
+stdin_open: true

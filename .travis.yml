@@ -1,0 +1,38 @@
+sudo: required
+dist: trusty
+language: node_js
+node_js:
+- 8.9.4
+before_script:
+- npm install
+script:
+- npm run build
+after_success:
+- if [[ " master stage " =~ .*\ $TRAVIS_BRANCH\ .* ]]; then
+  REPO_ORG=$(echo $TRAVIS_REPO_SLUG | cut -d "/" -f 1);
+  REPO_NAME=$(echo $TRAVIS_REPO_SLUG | cut -d "/" -f 2);
+  COMPOSE_FILE=docker-compose.yml;
+  RANCHER_STACK=$TRAVIS_REPO_SLUG;
+  if [[ -f docker-compose-$TRAVIS_BRANCH.yml ]]; then
+  COMPOSE_FILE=docker-compose-$TRAVIS_BRANCH.yml;
+  RANCHER_STACK=$RANCHER_STACK-$TRAVIS_BRANCH;
+  fi;
+  docker build -t $DOCKER_USERNAME/$REPO_NAME .;
+  docker tag $DOCKER_USERNAME/$REPO_NAME $DOCKER_USERNAME/$REPO_NAME:$(git rev-parse --short HEAD);
+  docker tag $DOCKER_USERNAME/$REPO_NAME $DOCKER_USERNAME/$REPO_NAME:$TRAVIS_BRANCH;
+  docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  docker push $DOCKER_USERNAME/$REPO_NAME;
+  wget -qO- https://github.com/rancher/rancher-compose/releases/download/v0.12.5/rancher-compose-linux-amd64-v0.12.5.tar.xz | tar -xvJ --strip=2;
+  ./rancher-compose -f $COMPOSE_FILE -p $RANCHER_STACK up --pull --upgrade -d;
+  echo todo, tests or rancher-compose up -p $RANCHER_STACK -d --rollback;
+  echo todo if ok, rancher-compose up -p $RANCHER_STACK -d --confirm-upgrade;
+  fi
+env:
+  global:
+  # docker
+  - secure: "O10hBZjjJlrfKtWxg5/ZH3x5EEXjbQLroGl3zrA9paeoiZ9UOEvOOVc/yxlggxa/FcE/eWVqFii8FLg8PNRKrK1LzH5OT0khHuSWMZgFTWf4AUQdan+czm32VwmbDkyuZcA1DCAHk6oD35WoDYNwGR67UWSnPGboxsRgFPCp3ux+lj1AarVWyLFJpJ4rP6ZqA0TFXmXLGCWbdZm1v3R/YAcTLUq3bCP544HpwGvF6XieM9WwYXtoBHJxn0OqLH2WN/wkJVumNwGN64O/bg6ezuy5DWmIwqGCenF0Mjng+tfruoLIsZjKgc4pODbgPRDhGYjicx2aInkWLpWl30z9xpLOOnKlnqzKRRVFOwbeehkVihUYtvNRDYfFKCCrlKis2cprOLtZFxSvXyQIXZ/RN+Q4wJNO4Z7Fk6wkIXyrcBFUcffKCh1xrZAS4KWegRFmLptuseIQ6Y7us+SQs2glFY9jO955xvORhr8H14NKsBJVuILLkX1MBFW6xm+r3x3tm/NBVfnqqX6RUH7SJrss6bbYixmMAP91hM2P+mx8LHlnSMDjMYr3S7DvoNnAdyNf6+Xv7R3BqMhN9URi5C1zGQtctYYUpUL4uz6SUrGWH1d7wOK6V82R2nyZSQcuzVH7OYMmH/ZR0DdCAtWMIin+THB6GP93ko0FOjleKKYK1HY="
+  - secure: iyWZUxorhuynEkFeMJi2Tr1u5F3yGqLyht9bWJx31Zf585NqNKPxLNrPV+jtdiObwCJUbtx5q8sh6e+t6FBlSLYff52hd2idvvlt9Xm8DK3mf4MQ3czEfYxfGSh6ofEiNOhYdBMY3s6RGhCurgQhYRE2VZi5CrcAytBU2ZzjS3Np8hr0Aec6OjgE9UvkhCSLFXoz+SJW/KW4B4mDCtvFe1i7p38r26g7c9CWcWCOfDpKA4qpmJ2h6yY7YO8j4XRHC6QAj0eNsJDYUXyRoUJNW/rd0O6ETHaAxUyDpefEmRc1zIv+JR8F1MhmoTdmBvItmgKJSjPYLUzosQ6iQOrTW5TKov57lHaHO1ITWHYDpHR7hfmOykUy10q+Bn3lrgx+P24eT7piyeHLgatSPBY+hOy+pZwJiOwK0FtX9eEu9AwKKFm9FAbQTJy7UeCicptfB6xjzpBXMx+YTOjjdDxGrlazAJ5sd93cqJN22uqxWLrPBfk1GrAABWEHWUicm/KPHVSfV+C5oqPxbcKa2JN4ZhD6avP0k7HXt5BFTvRnsnZHHo4vVdXt1jUPeaSNVp/AF/4v7StJXxvSb0od5EwH8/n/GB24SKfB6IH3FYVM6FPNZ/6TbGbkiGrgjVRXm75DJGhBmCfFQbIYgMqP81IUwGDoPhWLsQCEPoMFxw+Hxeo=
+  # rancher
+  - secure: "MPc6dyjOOaKhbOEWXO5JXALPc/4agZ3av1HmnoaHNhj7TFW1gKrLDAnBNHQd8qYnGEltEgOJvjlDS8z/mSXXwxAfovFoHr7Vj2dovBw/Z2zlxHEkK03OVeJnuSj4N/GbSgKax+K6XhgDVVdAc0ZNjOpRex4K0e6cCxO0nugInUson9N5NyDn58VcZTxd97Ily2xOcmupvq/hyWUsIMtaPSxBO0UyawYWUcQdKeWVWct36qAVCiE2Yqjmxu+YiQbiA1MONSi6hhpFFYO1Btvq9Gl/6UnFcshyzAamUyDm6NPiYzoxpSYuLr8GyP6V4K6yX0d1Cg68MacOEhe4fepbCQP8SuEmGpt/SHpe0wsT/EAE8t5bCP1Thg5ozJtvfldYpMKORTAJ1y4JsjgljUyXOpEMOVLdVl4YEMYqnpUWY++s7g9ubJ5/otk9KUN+fAWoPdCK4CZ+NWDYh+9z5yYUTAVBRrNksChWK9BvpFaNXKTCdTvL/o154fNmo7l+5Iy/3Jv7KtdR2WiaDca3v7CKD07Qon/oU8GGo+1okNT4CW6Y3ORueAZixttIjxA7dxcmMmjl+61fSRpRWZboLaTQ91nQAqRIQlcFtZGfbpFXTGxiRAYenMwYeH6NPeAUy+KQN5hLgBOTUiHRYaE+yuS4ep38pFHv1WUZjTkVcJRKMos="
+  - secure: "dII9N94STKVskDTV+HWixOLT6+xbBRh4b2x/Nbr64tU7DL3JPf0Pjztyi1Sl4UpEYGkiXqb8G/Nw5+/FgQb9jbK2+JU6TjCPzdC/91x52Bq2c3vaDoImrdK8u3bqaft7F0QM6A5Jj1fxT+HKDzqMLcm5iMPA7uWvULRcEv9vRmQlAMy4DI4uOgDzzFawMtepFVSRY9jaT2Tg+BPrqyKahV9HT2HJxxRxCmpK0a+4Sa7t+f74CfCaV6Y8IsACeuKbCaCb0m9Th1uGuFg7Vkzp519ADVDFdlfYk5td+xg2XeNKbQTLaIQ84O53a3Tcioz29ykjQN/qxec8xOFbK2yATaDMzJW/XKCMJg6jgZUo2mv0TBFWUjDazHos1LexoRXJvqwtPAGNHIO2Wy3ztYGwI/SA0Y37KuZmgw84lZmivxtrY1Vj2RibcnGsltBp3RZ/h+riNNbJKWe1DG22DI1C8dYJAoCxu+GZS7Nb+nM0Sd6BqO9j8joE4NHisIR+Dw+Tfr4KmKkqFuV9u78HmXA/+qCDbV22PMH1pGzCQ622Rcq+RpVxI9erWiVms10zb48zYOq6L3qgQm0g7D76iB4Yj0eDVgfWl+m9MYOhRjx0LlJEpCgcpZ7/7kvmdHeD2jDjG2CvYpmUjI3jmhOc4TzPBBXezD96Z517rSsXpvA0Jw4="
+  - secure: "M/dd+GWlPIsmn2AeyGMiMtDAnFBg5NLyRI7mzLUmP5NecgEK4SzYZz7gt80hjTgGQFVoZ2d9mLct7KK4rYX1ZWFAcRxvChiwVfJVt34TtNt1BGw0qp/pkMOAkbBg4I4/XKc3gVjJ3GO0c+SC5IoxIeIbSGv5PYMHI+U7x/KpCU8N/UczKdMqdMrcJB0kavJeE5x6wo9LwNK9U96dLR9ub0dvUzCB/GPJfo35hb1DbFOllJtxa/wteRnqLs/LCGfB1Hl/8gmrCA4j5mpouD9og5z9HIb+xlXWlJHGmy+fk5tQcEqZq4ix+29A/rEpupWULlcRjZdziscR7q+Kxd9V/mhuQHXd5klGo82SetFzcE0zUZWltBV8lMcmL+JhGPrwvL5L9bnqEIAmxvcpaeCzhmFa18TGZSxoMtpeEtj+m9Vzwn+Vju9fKq8TG3mp4DShwEB5JTpUO+4/QjLrNgiqlQsehH7t6GpA7L6nP8di16hHKu/bKt957nJl9dW4LOMgspccioSKukP5omc869Gk+LAl97A8FqBqWOHsgNSQSOoi0LBEZHhE438TBFjrm+8OkRNPEwwoerzLa4CR0ZBjIpDBpspnnLYdtk99+QsKIlaVPJniEGHohM8uWjkzn0h4ErOjhDgKnJbtIytMHlox8FV7beR3sOIRHmT6Wls0nV4="
