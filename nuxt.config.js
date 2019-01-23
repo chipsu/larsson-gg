@@ -1,4 +1,13 @@
 const pkg = require('./package')
+const path = require('path')
+const PurgecssPlugin = require('purgecss-webpack-plugin')
+const glob = require('glob-all')
+
+class TailwindExtractor {
+  static extract(content) {
+    return content.match(/[A-z0-9-:\/]+/g) || []
+  }
+}
 
 module.exports = {
   mode: 'universal',
@@ -41,7 +50,7 @@ module.exports = {
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios'
+    //'@nuxtjs/axios'
   ],
   /*
   ** Axios module configuration
@@ -54,6 +63,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    extractCSS: true,
     /*
     ** You can extend webpack config here
     */
@@ -66,6 +76,26 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
+      }
+
+      // PurgeCSS
+      if (!ctx.isDev) {
+        config.plugins.push(
+          new PurgecssPlugin({
+            paths: glob.sync([
+              path.join(__dirname, './layouts/**/*.vue'),
+              path.join(__dirname, './pages/**/*.vue'),
+              path.join(__dirname, './components/**/*.vue')
+            ]),
+            extractors: [
+              {
+                extractor: TailwindExtractor,
+                extensions: ["vue"]
+              }
+            ],
+            whitelist: ['html', 'body', 'nuxt-progress']
+          })
+        )
       }
     }
   }
