@@ -9,6 +9,14 @@ class TailwindExtractor {
   }
 }
 
+function markdownRoutes(root, prefix = '', index = true) {
+  const files = glob.sync(path.join(root, './**')).filter(file => path.extname(file) == '.md')
+  return files.map(file => {
+    const slug = file.substr(root.length).split('.').slice(0, -1).join('.')
+    return prefix + slug
+  })
+}
+
 module.exports = {
   mode: 'universal',
 
@@ -50,13 +58,35 @@ module.exports = {
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    //'@nuxtjs/axios'
+    '@nuxtjs/axios'
   ],
+
   /*
   ** Axios module configuration
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+  },
+
+  /*
+  ** Router configuration
+  */
+  router: {
+    linkActiveClass: 'is-active',
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: 'markdown',
+        path: '/:slug*',
+        component: resolve(__dirname, `./pages/markdown/_slug.vue`)
+      })
+    }
+  },
+
+  /*
+  ** Generate
+  */
+  generate: {
+    routes: markdownRoutes(path.join(__dirname, './static/markdown'))
   },
 
   /*
@@ -68,13 +98,21 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
+      // Node
+      config.node = {
+        fs: 'empty'
+      }
+
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/
+          exclude: /(node_modules)/,
+          options : {
+            fix : true
+          }
         })
       }
 

@@ -1,0 +1,79 @@
+<template>
+  <div class="container mx-auto">
+    <ImageSection :image_url="hero">
+      <div class="text-right">
+        <div
+          class="inline-block px-8 py-4 mx-8"
+          style="background:rgba(255,255,255,.75)"
+        >
+          <h1 class="text-2xl lg:text-5xl uppercase font-bold text-red">
+            {{meta.title}}
+          </h1>
+        </div>
+      </div>
+    </ImageSection>
+    <TextSection>
+      <HtmlParser
+        class="markdown"
+        v-html="content"
+      />
+    </TextSection>
+    <div>
+      {{ meta.date }} by {{ meta.author || 'Anonymous' }}
+      <br>{{ hero_credit }}
+    </div>
+  </div>
+</template>
+
+<script>
+import MarkdownIt from 'markdown-it'
+import MarkdownItMeta from 'markdown-it-meta'
+import HtmlParser from '~/components/HtmlParser'
+import ImageSection from '~/components/ImageSection'
+import TextSection from '~/components/TextSection'
+
+export default {
+  components: {
+    HtmlParser,
+    ImageSection,
+    TextSection
+  },
+  async asyncData({ res, error, params, $axios }) {
+    try {
+      const path = '/markdown/' + params.slug + '.md'
+      const content = process.browser ? await $axios.$get(path) : require('fs').readFileSync(`./static/${path}`, 'utf8')
+      const md = new MarkdownIt()
+      md.use(MarkdownItMeta)
+      return {
+        content: md.render(content),
+        meta: md.meta,
+        hero: md.meta.hero || 'https://source.unsplash.com/random',
+        hero_credit: md.meta.hero_credit || 'Image from https://unsplash.com/'
+      }
+    } catch(err) {
+      let statusCode = 404
+      if ('statusCode' in err) {
+        statusCode = err.statusCode
+      } else if('response' in err) {
+        statusCode = err.response.status
+      }
+      error({ statusCode: statusCode, message: 'File not found:'+statusCode })
+    }
+  }
+}
+</script>
+
+<style>
+.markdown a {
+  color: tomato;
+}
+.markdown h1,
+.markdown h2 {
+  padding: 1em 0 0.25em;
+}
+.markdown h1 + h6 {
+  font-size: 1em;
+  font-weight: normal;
+  padding: 0 0 1em;
+}
+</style>
