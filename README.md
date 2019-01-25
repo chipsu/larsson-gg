@@ -24,3 +24,7 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+
+## Todo
+- Move index.vue content to markdown?
+- Blog and stuff
