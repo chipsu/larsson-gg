@@ -1,16 +1,9 @@
 <template>
   <div class="container mx-auto">
     <ImageSection :image_url="hero">
-      <div class="text-right">
-        <div
-          class="inline-block px-8 py-4 mx-8"
-          style="background:rgba(255,255,255,.75)"
-        >
-          <h1 class="text-2xl lg:text-5xl uppercase font-bold text-red">
-            {{meta.title}}
-          </h1>
-        </div>
-      </div>
+      <ImageText tag="h1" class="text-center md:text-right">
+        {{meta.title}}
+      </ImageText>
     </ImageSection>
     <TextSection>
       <HtmlParser
@@ -31,6 +24,7 @@ import MarkdownItMeta from 'markdown-it-meta'
 import HtmlParser from '~/components/HtmlParser'
 import ImageSection from '~/components/ImageSection'
 import TextSection from '~/components/TextSection'
+import ImageText from '~/components/ImageText'
 
 export default {
   components: {

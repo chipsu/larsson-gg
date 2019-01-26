@@ -1,7 +1,7 @@
 <template>
   <div
     :is="tag"
-    class="uppercase font-bold"
+    class="uppercase font-bold leading-none"
   >
     <span class="text-red">larsson</span><span class="text-grey">.gg</span>
   </div>
