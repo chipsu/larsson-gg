@@ -29,9 +29,9 @@
             {{$route.path}}
             </pre>
             <div class="flex flex-col">
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog" @click="toggleMenu">Blog</nuxt-link>
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog" @click="toggleMenu">Github</nuxt-link>
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog" @click="toggleMenu">DockerHub</nuxt-link>
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog/" @click="toggleMenu">Blog</nuxt-link>
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog/" @click="toggleMenu">Github</nuxt-link>
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog/" @click="toggleMenu">DockerHub</nuxt-link>
               <div class="p-2 mt-8">
                 version:{{buildVersion}}
               </div>
