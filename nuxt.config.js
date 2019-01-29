@@ -13,12 +13,15 @@ function markdownRoutes(root, prefix = '', index = true) {
   const files = glob.sync(path.join(root, './**')).filter(file => path.extname(file) == '.md')
   return files.map(file => {
     const slug = file.substr(root.length).split('.').slice(0, -1).join('.')
-    return prefix + slug
+    return prefix + slug + '/'
   })
 }
 
 module.exports = {
   mode: 'universal',
+  env: {
+    buildVersion: process.env.BUILD_VERSION || 'dev'
+  },
 
   /*
   ** Headers of the page
@@ -66,6 +69,7 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    baseURL: ''
   },
 
   /*

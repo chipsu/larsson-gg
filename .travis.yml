@@ -17,7 +17,7 @@ after_success:
   COMPOSE_FILE=docker-compose-$TRAVIS_BRANCH.yml;
   RANCHER_STACK=$RANCHER_STACK-$TRAVIS_BRANCH;
   fi;
-  docker build -t $DOCKER_USERNAME/$REPO_NAME .;
+  docker build -t $DOCKER_USERNAME/$REPO_NAME --build-arg version=$TRAVIS_COMMIT .;
   docker tag $DOCKER_USERNAME/$REPO_NAME $DOCKER_USERNAME/$REPO_NAME:$(git rev-parse --short HEAD);
   docker tag $DOCKER_USERNAME/$REPO_NAME $DOCKER_USERNAME/$REPO_NAME:$TRAVIS_BRANCH;
   docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
