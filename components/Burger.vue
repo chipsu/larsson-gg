@@ -48,7 +48,7 @@ export default {
 
 <style :scoped>
 .burger:hover {
-  transform: rotate(90deg);
+  background-color: config('colors.red');
 }
 </style>
 

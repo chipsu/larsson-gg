@@ -1,17 +1,47 @@
 <template>
-  <div>
-    <!-- TODO: This becomes visible once hero is not in viev -->
-    <!-- <div class="container mx-auto px-4 py-2">
-      <div class="flex">
-        <logo />
-        <div class="ml-auto">[MENU]</div>
-      </div>
-    </div> -->
-
-    <div ref="top" class="fixed z-10 pin-l pin-r" @mousemove="topHidden=false">
+  <div class="overflow-hidden">
+    <div ref="top" class="fixed z-50 pin-l pin-r" @mousemove="topHidden=false">
       <div class="container mx-auto relative h-0">
-        <div class="transition" :style="topStyle" style="background:rgba(0,0,0,.1)">
-          <Burger class="mx-2 w-12 h-12 ml-auto" :active="menuOpen" :hidden="topHidden" @click.native="toggleMenu" />
+        <div class="transition" :style="topStyle">
+          <div class="flex items-center">
+            <nuxt-link to="/" class="md:hidden transition px-4"  :style="logoStyle">
+              <Logo class="text-xl" />
+            </nuxt-link>
+            <nuxt-link to="/" class="hidden md:block transition px-4" :style="mdLogoStyle">
+              <Logo class="text-xl" />
+            </nuxt-link>
+            <Burger class="mx-2 w-12 h-12 ml-auto" :active="menuOpen" :hidden="topHidden" @click.native="toggleMenu()" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ref="nav" class="fixed z-40 pin-l pin-r">
+      <div class="container mx-auto relative h-0">
+        <div class="transition overflow-hidden flex items-center justify-center" :style="menuStyle">
+          <div class="text-center text-white">
+            <pre style="display:none">
+            https://cloud.docker.com/repository/docker/chipu/larsson-gg
+            https://github.com/chipsu/larsson-gg
+            404 cute
+            tests
+
+            {{$route.path}}
+            </pre>
+            <div class="flex flex-col">
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog" @click="toggleMenu">Blog</nuxt-link>
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog" @click="toggleMenu">Github</nuxt-link>
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog" @click="toggleMenu">DockerHub</nuxt-link>
+              <div class="p-2 mt-8">
+                version:{{buildVersion}}
+              </div>
+              <div class="p-2">
+                <a href="https://travis-ci.org/chipsu/larsson-gg" target="_blank">
+                  <img src="https://travis-ci.org/chipsu/larsson-gg.svg?branch=master" />
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -42,7 +72,7 @@ export default {
       topHidden: true,
       scrollY: 0,
       menuOpen: false,
-      menuWidth: '16rem'
+      buildVersion: process.env.buildVersion
     }
   },
   mounted() {
@@ -56,16 +86,24 @@ export default {
       if (process.browser) {
         // Hide top on scroll down
         document.addEventListener('scroll', this.onScroll)
+        document.addEventListener('keydown', this.onKeyDown)
 
         // Reveal top nav
         setTimeout(() => {
           this.topHidden = false
         }, 500)
+
+        // Close menu on navigation
+        this.$router.beforeEach((to, from, next) => {
+          this.toggleMenu(false)
+          next()
+        })
       }
     },
     removeListeners() {
       if (process.browser) {
         document.removeEventListener('scroll', this.onScroll)
+        document.removeEventListener('keydown', this.onKeyDown)
       }
     },
     onScroll(event) {
@@ -73,16 +111,42 @@ export default {
       this.topHidden = window.scrollY < 0 || delta > 0
       this.scrollY = window.scrollY
     },
-    toggleMenu() {
-      this.menuOpen = !this.menuOpen
+    onKeyDown(event) {
+      console.log(event.keyCode)
+      if (event.keyCode == 27) {
+        this.toggleMenu(false)
+      }
+    },
+    toggleMenu(open = null) {
+      this.menuOpen = open === null ? !this.menuOpen : open
     }
   },
   computed: {
     topStyle() {
       return {
-        transform: this.menuOpen ? 'translateX(-' + this.menuWidth + ')' : '',
+        background: 'rgba(0,0,0,' + (this.topHidden || this.menuOpen ? '0' : '0.1') + ')',
       }
     },
+    logoStyle() {
+      const visible = this.menuOpen || !this.topHidden
+      return {
+        transform: visible ? 'translateY(0%)' : 'translateY(-200%)',
+      }
+    },
+    mdLogoStyle() {
+      const visible = this.$route.path == '/' ? this.menuOpen : this.menuOpen || !this.topHidden
+      return {
+        transform: visible ? 'translateY(0%)' : 'translateY(-200%)',
+        opacity: visible ? 1 : 0,
+      }
+    },
+    menuStyle() {
+      return {
+        height: this.menuOpen ? '100vh' : 0,
+        background: 'rgba(0,0,0,.75)',
+        transform: this.menuOpen ? 'translateY(0%)' : 'translateY(-100%)',
+      }
+    }
   }
 }
 </script>

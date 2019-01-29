@@ -3,7 +3,7 @@
     <div
       :is="tag"
       v-bind="attrs"
-      class="inline-block px-8 py-4 mx-8 text-2xl lg:text-5xl uppercase font-bold text-red leading-none no-underline"
+      class="inline-block px-4 py-4 lg:px-8 lg:py-4 md:mx-8 text-2xl lg:text-5xl uppercase font-bold text-red"
       style="background:rgba(255,255,255,.75)"
     >
       <slot />

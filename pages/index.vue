@@ -1,32 +1,39 @@
 <template>
   <div class="container mx-auto">
     <div>
-      <ImageSection image_url="DSC01157.jpg">
-        <ImageText class="text-center md:text-right">
+      <ImageSection image_url="DSC01157.jpg" large>
+        <ImageText class="hidden md:block md:text-right">
           <Logo tag="h1" class="text-2xl lg:text-5xl" />
         </ImageText>
       </ImageSection>
 
       <TextSection>
-        <h2 class="text-2xl lg:text-5xl font-bold text-red uppercase leading-none mb-4">
+        <template slot="heading">
           Hello!
-        </h2>
+        </template>
         <p>
           My name is Gustav Larsson and I'm a <span class="font-bold text-red">programmer</span>.
-          I can <span class="font-bold text-red">code</span> pretty much anything and I'm currently working as a <span class="font-bold text-red">full-stack web-developer</span>.
+          I can <span class="font-bold text-red">code</span>
+          pretty much anything and I'm currently working as a
+          <span class="font-bold text-red">full-stack web-developer</span>.
         </p>
       </TextSection>
 
       <ImageSection image_url="DSC01106.jpg">
-        <ImageText class="text-center">
-          {{randomQuote}}
+        <ImageText class="hidden md:block text-center">
+          <div class="text-xl lg:text-2xl">
+            "{{quoteText}}"
+          </div>
+          <div class="mt-2 text-right text-grey-darker text-lg lg:text-lg">
+            - {{quoteAuthor}}
+          </div>
         </ImageText>
       </ImageSection>
 
       <TextSection>
-        <h2 class="text-2xl lg:text-5xl font-bold text-red uppercase leading-none mb-4">
+        <template slot="heading">
           Skills
-        </h2>
+        </template>
         <div class="flex flex-wrap -mx-1">
           <div
             v-for="skill in skills"
@@ -40,29 +47,10 @@
       </TextSection>
 
       <ImageSection image_url="DSC01141.jpg">
-        <ImageText tag="a" class="text-center" :attrs="{class:'hover:text-red-dark', href:'mailto:hello@larsson.gg'}">
+        <ImageText tag="a" class="text-center" :attrs="{class:'transition hover:text-red-dark', href:'mailto:hello@larsson.gg'}">
           hello@larsson.gg
         </ImageText>
       </ImageSection>
-
-      <!-- <TextSection>
-        <h2 class="text-2xl lg:text-5xl font-bold text-red uppercase leading-none mb-4">
-          Still reading!? Link to blog
-        </h2>
-      </TextSection>
-
-      <ImageSection image_url="https://source.unsplash.com/1600x900/?nature,water">
-        <div class="text-center">
-          <div
-            class="inline-block px-8 py-4 mx-8"
-            style="background:rgba(255,255,255,.75)"
-          >
-            <span class="text-2xl lg:text-5xl uppercase font-bold text-red">
-              The end
-            </span>
-          </div>
-        </div>
-      </ImageSection> -->
     </div>
   </div>
 </template>
@@ -143,9 +131,16 @@ export default {
       'Kubernetes',
       'NDK',
     ].sort()
+    const quote = [
+      'Live today, for tomorrow it will all be history. - Anonymous',
+      'If you don’t build your dream someone will hire you to help build theirs. - Tony Gaskins',
+      'Your time is limited, so don’t waste it living someone else’s life. - Steve Jobs',
+      'The most common form of despair is not being who you are. - Søren Kierkegaard',
+    ].sort(_ => Math.random() - Math.random()).pop().split('-').map(str => str.trim())
     return {
       skills: skills,
-      randomQuote: ['TODO:QUOTE_HERE'].sort(_ => Math.random() - Math.random()).pop()
+      quoteText: quote[0],
+      quoteAuthor: quote[1]
     }
   }
 }

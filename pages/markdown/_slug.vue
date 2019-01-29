@@ -13,7 +13,7 @@
     </TextSection>
     <div>
       {{ meta.date }} by {{ meta.author || 'Anonymous' }}
-      <br>{{ hero_credit }}
+      <div v-html="heroCredit" />
     </div>
   </div>
 </template>
@@ -30,7 +30,8 @@ export default {
   components: {
     HtmlParser,
     ImageSection,
-    TextSection
+    TextSection,
+    ImageText
   },
   async asyncData({ res, error, params, $axios }) {
     try {
@@ -41,8 +42,8 @@ export default {
       return {
         content: md.render(content),
         meta: md.meta,
-        hero: md.meta.hero || 'https://source.unsplash.com/random',
-        hero_credit: md.meta.hero_credit || 'Image from https://unsplash.com/'
+        hero: md.meta.hero || 'https://source.unsplash.com/random?nature',
+        heroCredit: md.meta.heroCredit || 'Image from https://unsplash.com/'
       }
     } catch(err) {
       let statusCode = 404
@@ -51,6 +52,7 @@ export default {
       } else if('response' in err) {
         statusCode = err.response.status
       }
+      console.error('Error reading file: ' + params.slug, err)
       error({ statusCode: statusCode, message: 'File not found:'+statusCode })
     }
   }
