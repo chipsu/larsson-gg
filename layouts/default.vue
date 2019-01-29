@@ -112,7 +112,6 @@ export default {
       this.scrollY = window.scrollY
     },
     onKeyDown(event) {
-      console.log(event.keyCode)
       if (event.keyCode == 27) {
         this.toggleMenu(false)
       }
