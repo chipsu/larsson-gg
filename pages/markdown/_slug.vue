@@ -1,19 +1,23 @@
 <template>
   <div class="container mx-auto">
-    <ImageSection :image_url="hero">
-      <ImageText tag="h1" class="text-center md:text-right">
-        {{meta.title}}
-      </ImageText>
-    </ImageSection>
+    <div class="relative">
+      <ImageSection :image_url="hero" :large="true">
+        <ImageText tag="h1" class="text-center md:text-right">
+          {{meta.title}}
+        </ImageText>
+      </ImageSection>
+      <div v-if="heroCredit" class="md:absolute pin-r pin-b md:mx-12 md:my-8 p-2 bg-white-75">
+        <div class="content" v-html="heroCredit" />
+      </div>
+    </div>
     <TextSection>
       <HtmlParser
-        class="markdown"
+        class="content"
         v-html="content"
       />
     </TextSection>
     <div>
       {{ meta.date }} by {{ meta.author || 'Anonymous' }}
-      <div v-html="heroCredit" />
     </div>
   </div>
 </template>
@@ -42,8 +46,8 @@ export default {
       return {
         content: md.render(content),
         meta: md.meta,
-        hero: md.meta.hero || 'https://source.unsplash.com/random?nature',
-        heroCredit: md.meta.heroCredit || 'Image from https://unsplash.com/'
+        hero: md.meta.hero || 'https://source.unsplash.com/1600x900/?nature',
+        heroCredit: md.meta.heroCredit || 'Random photo from <a href="https://unsplash.com/">Unsplash</a>'
       }
     } catch(err) {
       let statusCode = 404
@@ -60,14 +64,14 @@ export default {
 </script>
 
 <style>
-.markdown a {
+.content a {
   color: tomato;
 }
-.markdown h1,
-.markdown h2 {
+.content h1,
+.content h2 {
   padding: 1em 0 0.25em;
 }
-.markdown h1 + h6 {
+.content h1 + h6 {
   font-size: 1em;
   font-weight: normal;
   padding: 0 0 1em;
