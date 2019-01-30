@@ -2,6 +2,8 @@
 title: "Not a blog archive"
 author: "Larsson"
 date: 2019-01-01 18:00:00 +2
+hero: DSC00606.JPG
+heroCredit: Photo by me
 ---
 
 # 

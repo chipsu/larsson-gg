@@ -2,7 +2,8 @@
 title: "About this site"
 author: "Larsson"
 date: 2019-01-01 18:00:00 +2
-hero: "https://source.unsplash.com/random"
+hero: DSC00499.JPG
+heroCredit: Photo by me, that iso ;)
 ---
 
 Info about this site,
