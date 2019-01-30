@@ -1,5 +1,5 @@
 <template>
-  <div class="burger transition relative cursor-pointer">
+  <div class="burger transition relative cursor-pointer" :class="{'hover:bg-red': !hidden}">
     <div class="transition absolute pin-l pin-t pin-r mx-2 rounded-full bg-white" v-for="i in [0,1,2]" :key="i" :style="barStyle(i)" />
   </div>
 </template>
@@ -45,10 +45,3 @@ export default {
   },
 }
 </script>
-
-<style :scoped>
-.burger:hover {
-  background-color: config('colors.red');
-}
-</style>
-
