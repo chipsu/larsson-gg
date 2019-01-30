@@ -122,8 +122,9 @@ export default {
   },
   computed: {
     topStyle() {
+      const alpha = this.topHidden || this.menuOpen ? '0' : '0.1'
       return {
-        background: 'rgba(0,0,0,' + (this.topHidden || this.menuOpen ? '0' : '0.1') + ')',
+        background: `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%,transparent 100%)`
       }
     },
     logoStyle() {
