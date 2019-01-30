@@ -6,7 +6,7 @@
     <div class="hidden lg:block absolute pin-l w-32 h-full z-10">
       <Pixels
         :w="4"
-        :h="16"
+        :h="28"
         class="absolute w-full"
         style="top:50%;transform:translateY(-50%);"
       />
@@ -14,7 +14,7 @@
     <div class="hidden lg:block absolute pin-r w-32 h-full z-10">
       <Pixels
         :w="4"
-        :h="16"
+        :h="28"
         class="absolute w-full"
         style="top:50%;transform:translateY(-50%) scaleX(-1);"
       />
