@@ -159,7 +159,8 @@ export default {
         return url
       }
       size = imageSize(size, this.normal)
-      return process.env.imaginaryUrl + 'resize?url=' + url + '&width=' + size[0] + '&height=' + size[1] + '&quality=' + quality
+      const key = url.indexOf('://') == -1 ? 'file' : 'url'
+      return process.env.imaginaryUrl + 'resize?' + key + '=' + url + '&width=' + size[0] + '&height=' + size[1] + '&quality=' + quality
     },
     loadIfInView() {
       let img = this.$refs.img

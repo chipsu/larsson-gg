@@ -20,7 +20,8 @@ function markdownRoutes(root, prefix = '', index = true) {
 module.exports = {
   mode: 'universal',
   env: {
-    buildVersion: process.env.BUILD_VERSION || 'dev'
+    buildVersion: process.env.BUILD_VERSION || 'dev',
+    imaginaryUrl: 'https://media.larsson.gg/'
   },
 
   /*
