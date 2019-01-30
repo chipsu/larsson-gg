@@ -21,7 +21,8 @@ module.exports = {
   mode: 'universal',
   env: {
     buildVersion: process.env.BUILD_VERSION || 'dev',
-    imaginaryUrl: 'https://media.larsson.gg/'
+    imaginaryUrl: 'https://media.larsson.gg/',
+    imaginaryEnabledUrl: false
   },
 
   /*

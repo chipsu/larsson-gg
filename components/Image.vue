@@ -160,6 +160,12 @@ export default {
       }
       size = imageSize(size, this.normal)
       const key = url.indexOf('://') == -1 ? 'file' : 'url'
+      if(key == 'url') {
+        const imaginaryEnabledUrl = process.env.imaginaryEnabledUrl
+        if(!imaginaryEnabledUrl || !new RegExp(imaginaryEnabledUrl).test(url)) {
+          return url
+        }
+      }
       return process.env.imaginaryUrl + 'resize?' + key + '=' + url + '&width=' + size[0] + '&height=' + size[1] + '&quality=' + quality
     },
     loadIfInView() {
