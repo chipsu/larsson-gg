@@ -47,8 +47,8 @@
       </TextSection>
 
       <ImageSection image_url="DSC01141.jpg">
-        <ImageText tag="a" class="text-center" :attrs="{class:'transition hover:text-red-dark', href:'mailto:hello@larsson.gg'}">
-          hello@larsson.gg
+        <ImageText tag="a" class="text-center" :attrs="{class:'transition hover:text-red-dark', href:'mailto:hi@larsson.gg'}">
+          hi@larsson.gg
         </ImageText>
       </ImageSection>
     </div>
