@@ -30,6 +30,7 @@
             </pre>
             <div class="flex flex-col">
               <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog/" @click="toggleMenu">Blog</nuxt-link>
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/lab/" @click="toggleMenu">Lab</nuxt-link>
               <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog/" @click="toggleMenu">Github</nuxt-link>
               <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog/" @click="toggleMenu">DockerHub</nuxt-link>
               <div class="p-2 mt-8">
@@ -47,14 +48,7 @@
     </div>
 
     <nuxt/>
-    <!-- <pre>OVERLAY_MENU</pre>
-    <pre>title,email,swedish/english toggle</pre>
-    <div class="container mx-auto px-4 py-2">
-      <pre>Something funny here</pre>
-      <pre>Random image maybe</pre>
-      <pre>Scroll for effect</pre>
-      <pre>Retro mode?</pre>
-    </div> -->
+
   </div>
 </template>
 
