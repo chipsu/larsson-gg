@@ -47,6 +47,7 @@ let colors = {
   'white-75': 'rgba(255,255,255,.75)',
   'transparent': 'transparent',
   'primary': '#cc1f1a',
+  'primary-darl': '#621b18',
 
   'black': '#22292f',
   'grey-darkest': '#3d4852',

@@ -65,7 +65,11 @@ export default {
 
 <style>
 .content a {
-  color: tomato;
+  transition: color 0.3s linear;
+  color: config('colors.primary');
+  &:hover {
+    color: config('colors.primary-dark');
+  }
 }
 .content h1,
 .content h2 {
