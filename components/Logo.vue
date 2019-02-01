@@ -3,7 +3,7 @@
     :is="tag"
     class="uppercase font-bold leading-none"
   >
-    <span class="text-red">larsson</span><span class="text-grey">.gg</span>
+    <span class="text-primary">larsson</span><span class="text-grey">.gg</span>
   </div>
 </template>
 

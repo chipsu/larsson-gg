@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto">
-    <ImageSection image_url="DSC00499.JPG">
+    <ImageSection src="DSC00499.JPG">
       <ImageText>
         Laboratory
       </ImageText>
@@ -8,7 +8,7 @@
     <TextSection>
       <div class="flex flex-wrap">
         <div v-for="item in items" :key="item.link" class="p-2 w-1/2 md:w-1/4">
-          <nuxt-link :to="item.link" class="transition flex bg-grey hover:bg-grey-light relative text-red p-4 h-32 justify-center items-center">
+          <nuxt-link :to="item.link" class="transition flex bg-grey hover:bg-grey-light relative text-primary p-4 h-32 justify-center items-center">
             <div>
               <div class="flex p-2 items-center justify-center font-bold text-lg">
                 {{ item.title }}

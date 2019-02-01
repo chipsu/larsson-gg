@@ -29,16 +29,16 @@
             {{$route.path}}
             </pre>
             <div class="flex flex-col">
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog/" @click="toggleMenu">Blog</nuxt-link>
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/lab/" @click="toggleMenu">Lab</nuxt-link>
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog/" @click="toggleMenu">Github</nuxt-link>
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-red" to="/blog/" @click="toggleMenu">DockerHub</nuxt-link>
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" to="/blog/" @click="toggleMenu">Blog</nuxt-link>
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" to="/lab/" @click="toggleMenu">Lab</nuxt-link>
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" to="/blog/" @click="toggleMenu">Github</nuxt-link>
+              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" to="/blog/" @click="toggleMenu">DockerHub</nuxt-link>
               <div class="p-2 mt-8">
                 version:{{buildVersion}}
               </div>
               <div class="p-2">
                 <a href="https://travis-ci.org/chipsu/larsson-gg" target="_blank">
-                  <img src="https://travis-ci.org/chipsu/larsson-gg.svg?branch=master" />
+                  <img src="https://travis-ci.org/chipsu/larsson-gg.svg?branch=master" alt="Travis status" />
                 </a>
               </div>
             </div>

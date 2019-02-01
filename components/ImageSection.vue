@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="image_url"
+    v-if="src"
     class="lg:-mx-32 bg-grey relative overflow-hidden"
   >
     <div class="hidden lg:block absolute pin-l w-32 h-full z-10">
@@ -20,7 +20,8 @@
       />
     </div>
     <VImage
-      :src="image_url"
+      :src="src"
+      :alt="alt"
       :format="large?'wide':'ultrawide'"
       class="block w-full"
     />
@@ -42,9 +43,13 @@ export default {
     Pixels
   },
   props: {
-    image_url: {
+    src: {
       type: String,
       default: null
+    },
+    alt: {
+      type: String,
+      default: ''
     },
     large: {
       type: Boolean,

@@ -8,6 +8,7 @@
       :class="imageClass"
       :style="placeholderStyle"
       :src="source(src, placeholder)"
+      :alt="alt"
       @load="loaded.placeholder=true"
     >
     <img
@@ -15,6 +16,7 @@
       :class="imageClass"
       :style="realStyle"
       :data-src="source(src, normal)"
+      :alt="alt"
       @load="loaded.real=true"
     >
   </div>
@@ -115,6 +117,10 @@ export default {
     src:  {
       type: String,
       default: null,
+    },
+    alt:  {
+      type: String,
+      default: '',
     },
   },
   data() {

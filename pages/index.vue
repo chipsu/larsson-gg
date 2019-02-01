@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto">
     <div>
-      <ImageSection image_url="DSC01157.jpg" large>
+      <ImageSection src="DSC01157.jpg" large>
         <ImageText class="hidden md:block md:text-right">
           <Logo tag="h1" class="text-2xl lg:text-5xl" />
         </ImageText>
@@ -12,14 +12,14 @@
           Hello!
         </template>
         <p>
-          My name is Gustav Larsson and I'm a <span class="font-bold text-red">programmer</span>.
-          I can <span class="font-bold text-red">code</span>
+          My name is Gustav Larsson and I'm a <span class="font-bold text-primary">programmer</span>.
+          I can <span class="font-bold text-primary">code</span>
           pretty much anything and I'm currently working as a
-          <span class="font-bold text-red">full-stack web-developer</span>.
+          <span class="font-bold text-primary">full-stack web-developer</span>.
         </p>
       </TextSection>
 
-      <ImageSection image_url="DSC01106.jpg">
+      <ImageSection src="DSC01106.jpg">
         <ImageText class="hidden md:block text-center">
           <div class="text-xl lg:text-2xl">
             "{{quoteText}}"
@@ -38,7 +38,7 @@
           <div
             v-for="skill in skills"
             :key="skill"
-            class="text-white bg-red p-2 m-1"
+            class="text-white bg-primary p-2 m-1"
           >
             {{ skill }}
           </div>
@@ -46,8 +46,8 @@
 
       </TextSection>
 
-      <ImageSection image_url="DSC01141.jpg">
-        <ImageText tag="a" class="text-center" :attrs="{class:'transition hover:text-red-dark', href:'mailto:hi@larsson.gg'}">
+      <ImageSection src="DSC01141.jpg">
+        <ImageText tag="a" class="text-center" :attrs="{class:'transition hover:text-primary', href:'mailto:hi@larsson.gg'}">
           hi@larsson.gg
         </ImageText>
       </ImageSection>

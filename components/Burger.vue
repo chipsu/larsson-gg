@@ -1,5 +1,5 @@
 <template>
-  <div class="burger transition relative cursor-pointer" :class="{'hover:bg-red': !hidden}">
+  <div class="burger transition relative cursor-pointer" :class="{'hover:bg-primary': !hidden}">
     <div class="transition absolute pin-l pin-t pin-r mx-2 rounded-full bg-white" v-for="i in [0,1,2]" :key="i" :style="barStyle(i)" />
   </div>
 </template>
