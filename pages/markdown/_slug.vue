@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto">
     <div class="relative">
-      <ImageSection :image_url="hero" :large="true">
+      <ImageSection :src="hero" :large="true">
         <ImageText tag="h1" class="text-center md:text-right">
           {{meta.title}}
         </ImageText>
