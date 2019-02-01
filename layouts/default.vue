@@ -37,7 +37,7 @@
                 version:{{buildVersion}}
               </div>
               <div class="p-2">
-                <a href="https://travis-ci.org/chipsu/larsson-gg" target="_blank">
+                <a href="https://travis-ci.org/chipsu/larsson-gg" target="_blank" rel="noopener">
                   <img src="https://travis-ci.org/chipsu/larsson-gg.svg?branch=master" alt="Travis status" />
                 </a>
               </div>
