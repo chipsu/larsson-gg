@@ -31,14 +31,15 @@
             <div class="flex flex-col">
               <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" to="/blog/" @click="toggleMenu">Blog</nuxt-link>
               <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" to="/lab/" @click="toggleMenu">Lab</nuxt-link>
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" to="/blog/" @click="toggleMenu">Github</nuxt-link>
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" to="/blog/" @click="toggleMenu">DockerHub</nuxt-link>
+              <a class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" href="https://github.com/chipsu" target="_blank" rel="noopener">Github</a>
               <div class="p-2 mt-8">
-                {{buildVersion.substr(0,6)}}
-              </div>
-              <div class="p-2">
                 <a href="https://travis-ci.org/chipsu/larsson-gg" target="_blank" rel="noopener">
                   <img src="https://travis-ci.org/chipsu/larsson-gg.svg?branch=master" alt="Travis status" />
+                </a>
+              </div>
+              <div class="p-2">
+                <a :href="'https://github.com/chipsu/larsson-gg/commit/' + buildVersion" target="_blank" rel="noopener">
+                  {{buildVersion.substr(0,6)}}
                 </a>
               </div>
             </div>
