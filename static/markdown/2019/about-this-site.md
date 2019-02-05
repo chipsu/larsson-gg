@@ -6,11 +6,12 @@ hero: DSC00499.JPG
 heroCredit: Photo by me, that iso ;)
 ---
 
+# TODO: Complete this garbage
 Info about this site,
 Nuxt, vue, tailwind, static, pagespeed,
 VSCode - Git push - Travis - Test - Docker build - Testrun - Deploy - Live check - Rollback or Commit -
 
-Everything is served by at least 2 Docker-instances for zero-downtime deployments, these instances are orchestrated by Cattle (Racher 1.6),
+Everything is served by Docker, zero-downtime deployments, these instances are orchestrated by Cattle (Racher 1.6),
 This is running behind an HAProxy Docker-instance and Cloudflare which also provides the SSL-cert.
 Finally, UptimeRobot is used to monitor that everything is up and running.
 
