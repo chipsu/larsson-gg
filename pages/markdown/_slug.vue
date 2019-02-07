@@ -73,11 +73,14 @@ export default {
 }
 .content h1,
 .content h2 {
-  padding: 1em 0 0.25em;
+  margin: 1em 0 0.25em;
 }
 .content h1 + h6 {
   font-size: 1em;
   font-weight: normal;
-  padding: 0 0 1em;
+  margin: 0 0 1em;
+}
+.content p {
+  margin: 0.5em auto;
 }
 </style>
