@@ -4,9 +4,9 @@ language: node_js
 node_js: '8'
 cache: yarn
 before_script:
-- npm install
+- yarn
 script:
-- npm run build
+- yarn generate
 after_success:
 - if [[ " master stage " =~ .*\ $TRAVIS_BRANCH\ .* ]]; then
   REPO_ORG=$(echo $TRAVIS_REPO_SLUG | cut -d "/" -f 1);
