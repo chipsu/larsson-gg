@@ -1,11 +1,11 @@
 FROM node:8-alpine AS builder
 WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install
+COPY package.json yarn.lock ./
+RUN yarn
 COPY . .
 ARG version=dev-unknown
 ENV BUILD_VERSION=$version
-RUN npm run generate
+RUN yarn generate
 
 FROM nginx
 WORKDIR /usr/share/nginx/html
