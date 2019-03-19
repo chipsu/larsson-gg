@@ -10,3 +10,4 @@
 - xscript
 - game1
 - failed games
+- why wordpress sucks
