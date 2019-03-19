@@ -1,5 +1,5 @@
 <template>
-  <div v-html="content" />
+  <div v-html="content"/>
 </template>
 
 <script>
@@ -7,11 +7,11 @@ export default {
   props: {
     content: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   watch: {
-    content: 'contentUpdated'
+    content: 'contentUpdated',
   },
   mounted() {
     this.$nextTick(this.addListeners)
@@ -24,7 +24,11 @@ export default {
       let target = event.target
       let i = 0
       // Go throught 5 parents max to find a tag
-      while (i < 5 && !target instanceof HTMLAnchorElement && target.parentNode) {
+      while (
+        i < 5 &&
+        !target instanceof HTMLAnchorElement &&
+        target.parentNode
+      ) {
         target = target.parentNode
         i++
       }
@@ -61,7 +65,7 @@ export default {
         this._links[i].removeEventListener('click', this.navigate, false)
       }
       this._links = []
-    }
-  }
+    },
+  },
 }
 </script>

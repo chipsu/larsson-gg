@@ -10,9 +10,15 @@ class TailwindExtractor {
 }
 
 function markdownRoutes(root, prefix = '', index = true) {
-  const files = glob.sync(path.join(root, './**')).filter(file => path.extname(file) == '.md')
+  const files = glob
+    .sync(path.join(root, './**'))
+    .filter(file => path.extname(file) == '.md')
   return files.map(file => {
-    const slug = file.substr(root.length).split('.').slice(0, -1).join('.')
+    const slug = file
+      .substr(root.length)
+      .split('.')
+      .slice(0, -1)
+      .join('.')
     return prefix + slug + '/'
   })
 }
@@ -22,7 +28,7 @@ module.exports = {
   env: {
     buildVersion: process.env.BUILD_VERSION || 'dev',
     imaginaryUrl: 'https://media.larsson.gg/',
-    imaginaryEnabledUrl: false
+    imaginaryEnabledUrl: false,
   },
 
   /*
@@ -33,11 +39,9 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: pkg.description },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   /*
@@ -48,15 +52,12 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [
-    '~/assets/css/tailwind.css'
-  ],
+  css: ['~/assets/css/tailwind.css'],
 
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-  ],
+  plugins: [],
 
   /*
   ** Nuxt.js modules
@@ -72,7 +73,7 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: ''
+    baseURL: '',
   },
 
   /*
@@ -80,20 +81,20 @@ module.exports = {
   */
   router: {
     linkActiveClass: 'is-active',
-    extendRoutes (routes, resolve) {
+    extendRoutes(routes, resolve) {
       routes.push({
         name: 'markdown',
         path: '/:slug*',
-        component: resolve(__dirname, `./pages/markdown/_slug.vue`)
+        component: resolve(__dirname, `./pages/markdown/_slug.vue`),
       })
-    }
+    },
   },
 
   /*
   ** Generate
   */
   generate: {
-    routes: markdownRoutes(path.join(__dirname, './static/markdown'))
+    routes: markdownRoutes(path.join(__dirname, './static/markdown')),
   },
 
   /*
@@ -107,7 +108,7 @@ module.exports = {
     extend(config, ctx) {
       // Node
       config.node = {
-        fs: 'empty'
+        fs: 'empty',
       }
 
       // Run ESLint on save
@@ -117,9 +118,9 @@ module.exports = {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
-          options : {
-            fix : true
-          }
+          options: {
+            fix: true,
+          },
         })
       }
 
@@ -130,18 +131,18 @@ module.exports = {
             paths: glob.sync([
               path.join(__dirname, './layouts/**/*.vue'),
               path.join(__dirname, './pages/**/*.vue'),
-              path.join(__dirname, './components/**/*.vue')
+              path.join(__dirname, './components/**/*.vue'),
             ]),
             extractors: [
               {
                 extractor: TailwindExtractor,
-                extensions: ["vue"]
-              }
+                extensions: ['vue'],
+              },
             ],
-            whitelist: ['html', 'body', 'nuxt-progress']
+            whitelist: ['html', 'body', 'nuxt-progress'],
           })
         )
       }
-    }
-  }
+    },
+  },
 }

@@ -1,24 +1,27 @@
 <template>
   <div class="container mx-auto">
     <div class="relative">
-      <ImageSection :src="hero" :large="true">
-        <ImageText tag="h1" class="text-center md:text-right">
-          {{meta.title}}
-        </ImageText>
+      <ImageSection 
+        :src="hero" 
+        :large="true">
+        <ImageText 
+          tag="h1" 
+          class="text-center md:text-right">{{ meta.title }}</ImageText>
       </ImageSection>
-      <div v-if="heroCredit" class="md:absolute pin-r pin-b md:mx-12 md:my-8 p-2 bg-white-75">
-        <div class="content" v-html="heroCredit" />
+      <div 
+        v-if="heroCredit" 
+        class="md:absolute pin-r pin-b md:mx-12 md:my-8 p-2 bg-white-75">
+        <div 
+          class="content" 
+          v-html="heroCredit"/>
       </div>
     </div>
     <TextSection>
-      <HtmlParser
-        class="content"
-        v-html="content"
-      />
+      <HtmlParser 
+        class="content" 
+        v-html="content"/>
     </TextSection>
-    <div>
-      {{ meta.date }} by {{ meta.author || 'Anonymous' }}
-    </div>
+    <div>{{ meta.date }} by {{ meta.author || 'Anonymous' }}</div>
   </div>
 </template>
 
@@ -35,31 +38,35 @@ export default {
     HtmlParser,
     ImageSection,
     TextSection,
-    ImageText
+    ImageText,
   },
   async asyncData({ res, error, params, $axios }) {
     try {
       const path = '/markdown/' + params.slug + '.md'
-      const content = process.browser ? await $axios.$get(path) : require('fs').readFileSync(`./static/${path}`, 'utf8')
+      const content = process.browser
+        ? await $axios.$get(path)
+        : require('fs').readFileSync(`./static/${path}`, 'utf8')
       const md = new MarkdownIt()
       md.use(MarkdownItMeta)
       return {
         content: md.render(content),
         meta: md.meta,
         hero: md.meta.hero || 'https://source.unsplash.com/1600x900/?nature',
-        heroCredit: md.meta.heroCredit || 'Random photo from <a href="https://unsplash.com/">Unsplash</a>'
+        heroCredit:
+          md.meta.heroCredit ||
+          'Random photo from <a href="https://unsplash.com/">Unsplash</a>',
       }
-    } catch(err) {
+    } catch (err) {
       let statusCode = 404
       if ('statusCode' in err) {
         statusCode = err.statusCode
-      } else if('response' in err) {
+      } else if ('response' in err) {
         statusCode = err.response.status
       }
       console.error('Error reading file: ' + params.slug, err)
-      error({ statusCode: statusCode, message: 'File not found:'+statusCode })
+      error({ statusCode: statusCode, message: 'File not found:' + statusCode })
     }
-  }
+  },
 }
 </script>
 

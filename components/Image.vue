@@ -1,8 +1,7 @@
 <template>
-  <div
-    :style="containerStyle"
-    class="relative w-full overflow-hidden bg-black"
-  >
+  <div 
+    :style="containerStyle" 
+    class="relative w-full overflow-hidden bg-black">
     <img
       ref="tmp"
       :class="imageClass"
@@ -49,8 +48,8 @@ function calculateSizes() {
     placeholder: 160,
   }
   let sizes = {}
-  for(let wk in widths) {
-    for(let rk in ratios) {
+  for (let wk in widths) {
+    for (let rk in ratios) {
       sizes[wk + '_' + rk] = [widths[wk], ratios[rk]]
     }
   }
@@ -60,13 +59,13 @@ function calculateSizes() {
 function fromWindowSize(i) {
   const size = i ? window.innerHeight : window.innerWidth
   let result = size
-  for(let k in imageSizes) {
-    if(parseInt(imageSizes[k][i]) < 1) {
+  for (let k in imageSizes) {
+    if (parseInt(imageSizes[k][i]) < 1) {
       continue
     }
-    if(imageSizes[k][i] > size) {
+    if (imageSizes[k][i] > size) {
       result = imageSizes[k][i]
-    } else if(imageSizes[k][i] < size) {
+    } else if (imageSizes[k][i] < size) {
       break
     }
   }
@@ -74,33 +73,33 @@ function fromWindowSize(i) {
 }
 
 function imageSize(size, normal = null) {
-  if(normal === null) {
+  if (normal === null) {
     normal = size
   }
-  if(size in imageSizes) {
+  if (size in imageSizes) {
     size = imageSizes[size]
   }
-  if(!size instanceof Array || size.length != 2) {
-    throw "Invalid size: " + JSON.stringify(size)
+  if (!size instanceof Array || size.length != 2) {
+    throw 'Invalid size: ' + JSON.stringify(size)
   }
-  for(let i = 0; i < size.length; ++i) {
+  for (let i = 0; i < size.length; ++i) {
     const val = size[i]
-    if(val == 'auto') {
-      if(process.browser) {
+    if (val == 'auto') {
+      if (process.browser) {
         size[i] = fromWindowSize(i)
         continue
       } else {
         size[i] = imageSizes[normal][i]
         continue
       }
-    } else if(val instanceof Array) {
-      if(val.length != 2) {
-        throw "Invalid ratio for size: " + JSON.stringify(size)
+    } else if (val instanceof Array) {
+      if (val.length != 2) {
+        throw 'Invalid ratio for size: ' + JSON.stringify(size)
       }
-      size[i] = Math.floor(size[i ? 0 : 1] * val[1] / val[0])
+      size[i] = Math.floor((size[i ? 0 : 1] * val[1]) / val[0])
       continue
-    } else if(parseInt(val) < 1) {
-      throw "Invalid size: " + JSON.stringify(size)
+    } else if (parseInt(val) < 1) {
+      throw 'Invalid size: ' + JSON.stringify(size)
     }
   }
   return size
@@ -114,11 +113,11 @@ export default {
       type: String,
       default: 'wide',
     },
-    src:  {
+    src: {
       type: String,
       default: null,
     },
-    alt:  {
+    alt: {
       type: String,
       default: '',
     },
@@ -137,53 +136,69 @@ export default {
       normal: normal,
       containerStyle: {
         height: 0,
-        paddingTop: (size[1] / size[0] * 100.0) + '%',
+        paddingTop: (size[1] / size[0]) * 100.0 + '%',
       },
     }
   },
   computed: {
     placeholderStyle() {
       return {
-        opacity: this.loaded.placeholder ? 1 : 0
+        opacity: this.loaded.placeholder ? 1 : 0,
       }
     },
     realStyle() {
       return {
-        opacity: this.loaded.real ? 1 : 0
+        opacity: this.loaded.real ? 1 : 0,
       }
-    }
+    },
   },
   methods: {
     source(url, size = 'auto', quality = 80) {
-      if(process.env.imageUrl && url.indexOf('://') == -1) {
-        url = process.env.imageUrl.replace(/\/$/, '') + '/' + url.replace(/^\//, '')
+      if (process.env.imageUrl && url.indexOf('://') == -1) {
+        url =
+          process.env.imageUrl.replace(/\/$/, '') + '/' + url.replace(/^\//, '')
       }
-      if(!process.env.imaginaryUrl) {
-        if(size.indexOf('placeholder_') > -1) {
+      if (!process.env.imaginaryUrl) {
+        if (size.indexOf('placeholder_') > -1) {
           return url.replace('.jpg', '.placeholder.jpg')
         }
         return url
       }
       size = imageSize(size, this.normal)
       const key = url.indexOf('://') == -1 ? 'file' : 'url'
-      if(key == 'url') {
+      if (key == 'url') {
         const imaginaryEnabledUrl = process.env.imaginaryEnabledUrl
-        if(!imaginaryEnabledUrl || !new RegExp(imaginaryEnabledUrl).test(url)) {
+        if (
+          !imaginaryEnabledUrl ||
+          !new RegExp(imaginaryEnabledUrl).test(url)
+        ) {
           return url
         }
       }
-      return process.env.imaginaryUrl + 'resize?' + key + '=' + url + '&width=' + size[0] + '&height=' + size[1] + '&quality=' + quality
+      return (
+        process.env.imaginaryUrl +
+        'resize?' +
+        key +
+        '=' +
+        url +
+        '&width=' +
+        size[0] +
+        '&height=' +
+        size[1] +
+        '&quality=' +
+        quality
+      )
     },
     loadIfInView() {
       let img = this.$refs.img
-      if(isElementInViewport(img)) {
+      if (isElementInViewport(img)) {
         img.src = img.dataset['src']
         return true
       }
       return false
     },
     scrollListener(event) {
-      if(this.loadIfInView()) {
+      if (this.loadIfInView()) {
         this.removeEventListeners()
       }
     },
@@ -197,13 +212,13 @@ export default {
     },
   },
   mounted() {
-    if(process.browser && !this.loaded.real) {
+    if (process.browser && !this.loaded.real) {
       const init = () => {
-        if(!this.loadIfInView()) {
+        if (!this.loadIfInView()) {
           this.attachEventListeners()
         }
       }
-      if('requestAnimationFrame' in window) {
+      if ('requestAnimationFrame' in window) {
         requestAnimationFrame(init)
       } else {
         init()
@@ -211,10 +226,10 @@ export default {
     }
   },
   destroyed() {
-    if(process.browser) {
+    if (process.browser) {
       this.removeEventListeners()
     }
-  }
+  },
 }
 /*eslint-enable */
 </script>

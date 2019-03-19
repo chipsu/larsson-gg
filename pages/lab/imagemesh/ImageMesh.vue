@@ -1,7 +1,12 @@
 <template>
   <div ref="main">
-    <canvas ref="canvas" :width="width" :height="height" />
-    <script ref="shader-vs" type="x-shader/x-vertex">
+    <canvas 
+      ref="canvas" 
+      :width="width" 
+      :height="height" />
+    <script 
+      ref="shader-vs" 
+      type="x-shader/x-vertex">
       attribute vec3 aVertexPosition;
       attribute vec2 aTextureCoord;
       uniform mat4 uMVPMatrix;
@@ -9,42 +14,46 @@
       varying vec4 fragColor;
       varying highp vec2 vTextureCoord;
       void main(void) {
-        vec3 diff = aVertexPosition - uCursor;
-        float dist = length(diff) * 0.05;
-        if(dist > 0.5) {
-          //dist = 0.0;
-        }
-        //gl_Position = uMVPMatrix * vec4(aVertexPosition, 1.0) + vec4(diff, 1.0) * dist;
-        gl_Position = uMVPMatrix * vec4(aVertexPosition[0], aVertexPosition[1], -dist, 1.0);
-        gl_PointSize = 4.0;
-        float c = length(aVertexPosition) * 0.2;
-        fragColor = vec4(1.0, c, c, 1.0);
-        if(dist > 0.0)
-          fragColor = vec4(0, 1, 0, 1.0);
-        vTextureCoord = aTextureCoord;
+      vec3 diff = aVertexPosition - uCursor;
+      float dist = length(diff) * 0.05;
+      if(dist > 0.5) {
+      //dist = 0.0;
+      }
+      //gl_Position = uMVPMatrix * vec4(aVertexPosition, 1.0) + vec4(diff, 1.0) * dist;
+      gl_Position = uMVPMatrix * vec4(aVertexPosition[0], aVertexPosition[1], -dist, 1.0);
+      gl_PointSize = 4.0;
+      float c = length(aVertexPosition) * 0.2;
+      fragColor = vec4(1.0, c, c, 1.0);
+      if(dist > 0.0)
+      fragColor = vec4(0, 1, 0, 1.0);
+      vTextureCoord = aTextureCoord;
       }
     </script>
-    <script ref="shader-fs" type="x-shader/x-fragment">
+    <script 
+      ref="shader-fs" 
+      type="x-shader/x-fragment">
       precision mediump float;
       varying vec4 fragColor;
       varying highp vec2 vTextureCoord;
       uniform sampler2D uSampler;
       void main(void) {
-        // vec2 coord = gl_PointCoord - vec2(0.5);  //from [0,1] to [-0.5,0.5]
-        //if(length(coord) > 0.5)                 //outside of circle radius?
-        //  discard;
-        //float l = 1.0 - length(coord) * 2.0;
-        //gl_FragColor = vec4(l, l, l, 1.0);
-        //float c = gl_VertexID;
-        //gl_FragColor = vec4(c, 1.0, 1.0, 1.0);
-        //gl_FragColor = fragColor;
-        gl_FragColor = texture2D(uSampler, vTextureCoord);
+      // vec2 coord = gl_PointCoord - vec2(0.5);  //from [0,1] to [-0.5,0.5]
+      //if(length(coord) > 0.5)                 //outside of circle radius?
+      //  discard;
+      //float l = 1.0 - length(coord) * 2.0;
+      //gl_FragColor = vec4(l, l, l, 1.0);
+      //float c = gl_VertexID;
+      //gl_FragColor = vec4(c, 1.0, 1.0, 1.0);
+      //gl_FragColor = fragColor;
+      gl_FragColor = texture2D(uSampler, vTextureCoord);
       }
     </script>
-    <script ref="fs-points" type="x-shader/x-fragment">
+    <script 
+      ref="fs-points" 
+      type="x-shader/x-fragment">
       precision mediump float;
       void main(void) {
-        gl_FragColor = vec4(1.0, 0.5, 0.5, 1.0);
+      gl_FragColor = vec4(1.0, 0.5, 0.5, 1.0);
       }
     </script>
   </div>
@@ -55,36 +64,39 @@ export default {
   props: {
     src: {
       type: String,
-      default: null
+      default: null,
     },
     clearColor: {
       type: Array,
-      default: () => { return [0, 0, 0, 1] },
-    }
+      default: () => {
+        return [0, 0, 0, 1]
+      },
+    },
   },
   data() {
     return {
       width: 0,
       height: 0,
-      eventListeners: []
+      eventListeners: [],
     }
   },
   mounted() {
-    if(process.browser) {
-      if(typeof mat4 == 'undefined') {
+    if (process.browser) {
+      if (typeof mat4 == 'undefined') {
         const script = document.createElement('script')
         script.onload = event => {
           this.init()
         }
         document.head.appendChild(script)
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.7.1/gl-matrix-min.js'
+        script.src =
+          'https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.7.1/gl-matrix-min.js'
       } else {
         this.init()
       }
     }
   },
   destroyed() {
-    if(process.browser) {
+    if (process.browser) {
       this.removeEventListeners()
     }
   },
@@ -94,7 +106,7 @@ export default {
       this.eventListeners.push([object, type, callback])
     },
     removeEventListeners() {
-      for(const array of this.eventListeners) {
+      for (const array of this.eventListeners) {
         array[0].removeEventListener(array[1], array[2])
       }
     },
@@ -103,7 +115,7 @@ export default {
       const canvas = this.$refs.canvas
       const gl = canvas.getContext('webgl')
 
-      if(gl === null) {
+      if (gl === null) {
         console.error('WebGL not supported')
         return
       }
@@ -119,7 +131,7 @@ export default {
         const srcType = gl.UNSIGNED_BYTE
         const pixel = new Uint8Array([0, 0, 255, 255])
 
-        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.bindTexture(gl.TEXTURE_2D, texture)
         gl.texImage2D(
           gl.TEXTURE_2D,
           level,
@@ -135,7 +147,14 @@ export default {
         const image = new Image()
         image.onload = function() {
           gl.bindTexture(gl.TEXTURE_2D, texture)
-          gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, image)
+          gl.texImage2D(
+            gl.TEXTURE_2D,
+            level,
+            internalFormat,
+            srcFormat,
+            srcType,
+            image
+          )
           gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
           gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
           gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
@@ -143,17 +162,17 @@ export default {
         image.onerror = function(event) {
           console.error('texture error', event)
         }
-        if ((new URL(url)).origin !== window.location.origin) {
+        if (new URL(url).origin !== window.location.origin) {
           image.crossOrigin = ''
         }
         image.src = url
 
-        return texture;
+        return texture
       }
 
       function getShader(gl, id) {
         const script = self.$refs[id]
-        if(!script) {
+        if (!script) {
           console.error('Shader not found: ' + id)
           return null
         }
@@ -161,7 +180,7 @@ export default {
           'x-shader/x-fragment': gl.FRAGMENT_SHADER,
           'x-shader/x-vertex': gl.VERTEX_SHADER,
         }
-        if(!typeMap[script.type]) {
+        if (!typeMap[script.type]) {
           console.error('Shader type not supported: ' + script.type)
           return null
         }
@@ -169,19 +188,19 @@ export default {
         gl.shaderSource(shader, script.textContent)
         gl.compileShader(shader)
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.error('Error compiling shader', gl.getShaderInfoLog(shader))
-            return null
+          console.error('Error compiling shader', gl.getShaderInfoLog(shader))
+          return null
         }
         return shader
       }
 
-      let shaderProgram;
-      let shaderProgram2;
+      let shaderProgram
+      let shaderProgram2
       let mvMatrix = mat4.create()
       let pMatrix = mat4.create()
       let mvpMatrix = mat4.create()
-      let vertexBuffer;
-      let indexBuffer;
+      let vertexBuffer
+      let indexBuffer
       let uCursor = vec3.create()
       let n = 4
       let texture = loadTexture(gl, this.src)
@@ -196,8 +215,8 @@ export default {
         this.width = this.$refs.main.offsetWidth
         this.height = this.width * 0.5625
 
-        gl.viewportWidth = this.width;
-        gl.viewportHeight = this.height;
+        gl.viewportWidth = this.width
+        gl.viewportHeight = this.height
 
         gl.clearColor(...self.clearColor)
         gl.enable(gl.DEPTH_TEST)
@@ -219,13 +238,25 @@ export default {
         if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
           alert('Could not initialise shaders')
         }
-        shaderProgram.aVertexPosition = gl.getAttribLocation(shaderProgram, 'aVertexPosition')
-        shaderProgram.aTextureCoord = gl.getAttribLocation(shaderProgram, 'aTextureCoord')
+        shaderProgram.aVertexPosition = gl.getAttribLocation(
+          shaderProgram,
+          'aVertexPosition'
+        )
+        shaderProgram.aTextureCoord = gl.getAttribLocation(
+          shaderProgram,
+          'aTextureCoord'
+        )
         gl.enableVertexAttribArray(shaderProgram.aVertexPosition)
         gl.enableVertexAttribArray(shaderProgram.aTextureCoord)
-        shaderProgram.uMVPMatrix = gl.getUniformLocation(shaderProgram, 'uMVPMatrix')
+        shaderProgram.uMVPMatrix = gl.getUniformLocation(
+          shaderProgram,
+          'uMVPMatrix'
+        )
         shaderProgram.uCursor = gl.getUniformLocation(shaderProgram, 'uCursor')
-        shaderProgram.uSampler = gl.getUniformLocation(shaderProgram, 'uSampler')
+        shaderProgram.uSampler = gl.getUniformLocation(
+          shaderProgram,
+          'uSampler'
+        )
 
         /* var fragmentShader = getShader(gl, 'fs-points')
         //var vertexShader = getShader(gl, 'shader-vs')
@@ -248,8 +279,8 @@ export default {
         vertexBuffer = gl.createBuffer()
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
         let vertices = []
-        for(let x = 0; x < n; ++x) {
-          for(let y = 0; y < n; ++y) {
+        for (let x = 0; x < n; ++x) {
+          for (let y = 0; y < n; ++y) {
             vertices.push(x, y, Math.random() * 0, 0, 0)
             vertices.push(x + 1, y, Math.random() * 0, 0, 0)
             vertices.push(x, y + 1, Math.random() * 0, 0, 0)
@@ -259,84 +290,119 @@ export default {
           }
         }
         vertices = vertices.map(x => {
-          return x * 1.0 / n
+          return (x * 1.0) / n
         })
         console.log(vertices.slice(vertices.length - 10))
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
+        gl.bufferData(
+          gl.ARRAY_BUFFER,
+          new Float32Array(vertices),
+          gl.STATIC_DRAW
+        )
         vertexBuffer.itemSize = 5
         vertexBuffer.numItems = vertices.length / vertexBuffer.itemSize
         console.log(vertexBuffer.numItems)
 
         let indices = []
-        for(let y = 0; y < 1; ++y) {
-            for(let x = 0; x < 1; ++x) {
-                let start = y * n + x;
-                indices.push(
-                  start,
-                  start + 1,
-                  start + 2,
-                  start + 2,
-                  start + 1,
-                  start + 3,
-                )
-            }
+        for (let y = 0; y < 1; ++y) {
+          for (let x = 0; x < 1; ++x) {
+            let start = y * n + x
+            indices.push(
+              start,
+              start + 1,
+              start + 2,
+              start + 2,
+              start + 1,
+              start + 3
+            )
+          }
         }
 
-        indexBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+        indexBuffer = gl.createBuffer()
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer)
+        gl.bufferData(
+          gl.ELEMENT_ARRAY_BUFFER,
+          new Uint16Array(indices),
+          gl.STATIC_DRAW
+        )
         indexBuffer.numItems = indices.length / 2
       }
 
-      let zmin = -0.95;
-      let zmax = -0.90;
-      let zdir = 1;
-      let z = zmin;
+      let zmin = -0.95
+      let zmax = -0.9
+      let zdir = 1
+      let z = zmin
 
       function drawScene(now, delta) {
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight)
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
         z += now * 0.0000000005 * zdir
-        if(z < zmin) {
-          z = zmin;
-          zdir = -zdir;
-        } else if(z > zmax) {
-          z = zmax;
-          zdir = -zdir;
+        if (z < zmin) {
+          z = zmin
+          zdir = -zdir
+        } else if (z > zmax) {
+          z = zmax
+          zdir = -zdir
         }
         mat4.identity(mvMatrix)
-        mat4.translate(mvMatrix, mvMatrix, [-.5, .5, z])
+        mat4.translate(mvMatrix, mvMatrix, [-0.5, 0.5, z])
         mat4.rotateX(mvMatrix, mvMatrix, glMatrix.toRadian(180))
         //mat4.rotateY(mvMatrix, mvMatrix, now * 0.001)
         mat4.multiply(mvpMatrix, pMatrix, mvMatrix)
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)
 
-        if(shaderProgram2) {
+        if (shaderProgram2) {
           gl.useProgram(shaderProgram2)
           //gl.enable(gl.BLEND);
           //gl.blendColor(1, 1, 1, 1);
           //gl.blendFunc(gl.CONSTANT_COLOR, gl.SRC_ALPHA_SATURATE);
-          gl.vertexAttribPointer(shaderProgram2.aVertexPosition, 3, gl.FLOAT, false, vertexBuffer.itemSize * 4, 0 * 4)
-          gl.vertexAttribPointer(shaderProgram2.aTextureCoord, 2, gl.FLOAT, false, vertexBuffer.itemSize * 4, 0 * 4)
+          gl.vertexAttribPointer(
+            shaderProgram2.aVertexPosition,
+            3,
+            gl.FLOAT,
+            false,
+            vertexBuffer.itemSize * 4,
+            0 * 4
+          )
+          gl.vertexAttribPointer(
+            shaderProgram2.aTextureCoord,
+            2,
+            gl.FLOAT,
+            false,
+            vertexBuffer.itemSize * 4,
+            0 * 4
+          )
           gl.uniformMatrix4fv(shaderProgram2.uMVPMatrix, false, mvpMatrix)
           gl.uniform3fv(shaderProgram2.uCursor, uCursor)
           gl.drawArrays(gl.POINTS, 0, vertexBuffer.numItems)
         }
 
         gl.useProgram(shaderProgram)
-        gl.vertexAttribPointer(shaderProgram.aVertexPosition, 3, gl.FLOAT, false, vertexBuffer.itemSize * 4, 0 * 4)
-        gl.vertexAttribPointer(shaderProgram.aTextureCoord, 2, gl.FLOAT, false, vertexBuffer.itemSize * 4, 0 * 4)
+        gl.vertexAttribPointer(
+          shaderProgram.aVertexPosition,
+          3,
+          gl.FLOAT,
+          false,
+          vertexBuffer.itemSize * 4,
+          0 * 4
+        )
+        gl.vertexAttribPointer(
+          shaderProgram.aTextureCoord,
+          2,
+          gl.FLOAT,
+          false,
+          vertexBuffer.itemSize * 4,
+          0 * 4
+        )
         gl.uniformMatrix4fv(shaderProgram.uMVPMatrix, false, mvpMatrix)
         gl.uniform3fv(shaderProgram.uCursor, uCursor)
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.uniform1i(shaderProgram.uSampler, 0);
+        gl.activeTexture(gl.TEXTURE0)
+        gl.bindTexture(gl.TEXTURE_2D, texture)
+        gl.uniform1i(shaderProgram.uSampler, 0)
         //gl.disable(gl.BLEND);
         //mat4.translate(mvMatrix, mvMatrix, [.0, .0, -0.01])
         //mat4.multiply(mvpMatrix, pMatrix, mvMatrix)
         //gl.uniformMatrix4fv(shaderProgram.uMVPMatrix, false, mvpMatrix)
         gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.numItems)
-
       }
 
       initCanvas()
@@ -345,11 +411,11 @@ export default {
 
       let lastFrame = 0
       function update(now) {
-        if(!lastFrame) {
+        if (!lastFrame) {
           lastFrame = now
         }
         let delta = now - lastFrame
-        if(delta > 0) {
+        if (delta > 0) {
           drawScene(now, delta)
           lastFrame = now
         }
@@ -357,7 +423,7 @@ export default {
       }
 
       update()
-    }
-  }
+    },
+  },
 }
 </script>

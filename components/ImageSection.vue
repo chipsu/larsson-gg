@@ -1,8 +1,7 @@
 <template>
-  <div
-    v-if="src"
-    class="lg:-mx-32 bg-grey relative overflow-hidden"
-  >
+  <div 
+    v-if="src" 
+    class="lg:-mx-32 bg-grey relative overflow-hidden">
     <div class="hidden lg:block absolute pin-l w-32 h-full z-10">
       <Pixels
         :w="4"
@@ -19,15 +18,14 @@
         style="top:50%;transform:translateY(-50%) scaleX(-1);"
       />
     </div>
-    <VImage
-      :src="src"
-      :alt="alt"
-      :format="large?'wide':'ultrawide'"
-      class="block w-full"
-    />
+    <VImage 
+      :src="src" 
+      :alt="alt" 
+      :format="large?'wide':'ultrawide'" 
+      class="block w-full"/>
     <div class="absolute pin flex items-center">
       <div class="container mx-auto relative z-10 p-4">
-        <slot />
+        <slot/>
       </div>
     </div>
   </div>
@@ -40,21 +38,21 @@ import Pixels from '~/components/Pixels.vue'
 export default {
   components: {
     VImage,
-    Pixels
+    Pixels,
   },
   props: {
     src: {
       type: String,
-      default: null
+      default: null,
     },
     alt: {
       type: String,
-      default: ''
+      default: '',
     },
     large: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 }
 </script>

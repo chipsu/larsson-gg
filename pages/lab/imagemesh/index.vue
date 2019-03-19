@@ -9,7 +9,7 @@ import ImageMesh from './ImageMesh.vue'
 
 export default {
   components: {
-    ImageMesh
-  }
+    ImageMesh,
+  },
 }
 </script>

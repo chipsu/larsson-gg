@@ -1,9 +1,9 @@
 <template>
-  <div
-    :is="tag"
-    class="uppercase font-bold leading-none"
-  >
-    <span class="text-primary">larsson</span><span class="text-grey">.gg</span>
+  <div 
+    :is="tag" 
+    class="uppercase font-bold leading-none">
+    <span class="text-primary">larsson</span>
+    <span class="text-grey">.gg</span>
   </div>
 </template>
 
@@ -12,8 +12,8 @@ export default {
   props: {
     tag: {
       type: String,
-      default: 'div'
-    }
-  }
+      default: 'div',
+    },
+  },
 }
 </script>

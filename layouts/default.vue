@@ -1,24 +1,43 @@
 <template>
   <div class="overflow-hidden">
-    <div ref="top" class="fixed z-50 pin-l pin-r" @mousemove="topHidden=false">
+    <div 
+      ref="top" 
+      class="fixed z-50 pin-l pin-r" 
+      @mousemove="topHidden=false">
       <div class="container mx-auto relative h-0">
-        <div class="transition" :style="topStyle">
+        <div 
+          :style="topStyle" 
+          class="transition">
           <div class="flex items-center">
-            <nuxt-link to="/" class="md:hidden transition px-4"  :style="logoStyle">
+            <nuxt-link 
+              :style="logoStyle" 
+              to="/" 
+              class="md:hidden transition px-4">
               <Logo class="text-xl" />
             </nuxt-link>
-            <nuxt-link to="/" class="hidden md:block transition px-4" :style="mdLogoStyle">
+            <nuxt-link 
+              :style="mdLogoStyle" 
+              to="/" 
+              class="hidden md:block transition px-4">
               <Logo class="text-xl" />
             </nuxt-link>
-            <Burger class="mx-2 w-12 h-12 ml-auto" :active="menuOpen" :hidden="topHidden" @click.native="toggleMenu()" />
+            <Burger 
+              :active="menuOpen" 
+              :hidden="topHidden" 
+              class="mx-2 w-12 h-12 ml-auto" 
+              @click.native="toggleMenu()" />
           </div>
         </div>
       </div>
     </div>
 
-    <div ref="nav" class="fixed z-40 pin-l pin-r">
+    <div 
+      ref="nav" 
+      class="fixed z-40 pin-l pin-r">
       <div class="container mx-auto relative h-0">
-        <div class="transition overflow-hidden flex items-center justify-center" :style="menuStyle">
+        <div 
+          :style="menuStyle" 
+          class="transition overflow-hidden flex items-center justify-center">
           <div class="text-center text-white">
             <pre style="display:none">
             https://cloud.docker.com/repository/docker/chipu/larsson-gg
@@ -26,20 +45,38 @@
             404 cute
             tests
 
-            {{$route.path}}
+            {{ $route.path }}
             </pre>
             <div class="flex flex-col">
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" to="/blog/" @click="toggleMenu">Blog</nuxt-link>
-              <nuxt-link class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" to="/lab/" @click="toggleMenu">Lab</nuxt-link>
-              <a class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" href="https://github.com/chipsu" target="_blank" rel="noopener">Github</a>
+              <nuxt-link 
+                class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" 
+                to="/blog/" 
+                @click="toggleMenu">Blog</nuxt-link>
+              <nuxt-link 
+                class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" 
+                to="/lab/" 
+                @click="toggleMenu">Lab</nuxt-link>
+              <a 
+                class="transition px-8 py-2 my-2 text-3xl hover:bg-primary" 
+                href="https://github.com/chipsu" 
+                target="_blank" 
+                rel="noopener">Github</a>
               <div class="p-2 mt-8">
-                <a href="https://travis-ci.org/chipsu/larsson-gg" target="_blank" rel="noopener">
-                  <img src="https://travis-ci.org/chipsu/larsson-gg.svg?branch=master" alt="Travis status" />
+                <a 
+                  href="https://travis-ci.org/chipsu/larsson-gg" 
+                  target="_blank" 
+                  rel="noopener">
+                  <img 
+                    src="https://travis-ci.org/chipsu/larsson-gg.svg?branch=master" 
+                    alt="Travis status" >
                 </a>
               </div>
               <div class="p-2">
-                <a :href="'https://github.com/chipsu/larsson-gg/commit/' + buildVersion" target="_blank" rel="noopener">
-                  {{buildVersion.substr(0,6)}}
+                <a 
+                  :href="'https://github.com/chipsu/larsson-gg/commit/' + buildVersion" 
+                  target="_blank" 
+                  rel="noopener">
+                  {{ buildVersion.substr(0,6) }}
                 </a>
               </div>
             </div>
@@ -60,15 +97,46 @@ import Burger from '~/components/Burger.vue'
 export default {
   components: {
     Logo,
-    Burger
+    Burger,
   },
   data() {
     return {
       topHidden: true,
       scrollY: 0,
       menuOpen: false,
-      buildVersion: process.env.buildVersion
+      buildVersion: process.env.buildVersion,
     }
+  },
+  computed: {
+    topStyle() {
+      const alpha = this.topHidden || this.menuOpen ? '0' : '0.1'
+      return {
+        background: `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%,transparent 100%)`,
+      }
+    },
+    logoStyle() {
+      const visible = this.menuOpen || !this.topHidden
+      return {
+        transform: visible ? 'translateY(0%)' : 'translateY(-200%)',
+      }
+    },
+    mdLogoStyle() {
+      const visible =
+        this.$route.path == '/'
+          ? this.menuOpen
+          : this.menuOpen || !this.topHidden
+      return {
+        transform: visible ? 'translateY(0%)' : 'translateY(-200%)',
+        opacity: visible ? 1 : 0,
+      }
+    },
+    menuStyle() {
+      return {
+        height: this.menuOpen ? '100vh' : 0,
+        background: 'rgba(0,0,0,.75)',
+        transform: this.menuOpen ? 'translateY(0%)' : 'translateY(-100%)',
+      }
+    },
   },
   mounted() {
     this.$nextTick(this.addListeners)
@@ -113,36 +181,8 @@ export default {
     },
     toggleMenu(open = null) {
       this.menuOpen = open === null ? !this.menuOpen : open
-    }
+    },
   },
-  computed: {
-    topStyle() {
-      const alpha = this.topHidden || this.menuOpen ? '0' : '0.1'
-      return {
-        background: `linear-gradient(to bottom, rgba(0,0,0,${alpha}) 0%,transparent 100%)`
-      }
-    },
-    logoStyle() {
-      const visible = this.menuOpen || !this.topHidden
-      return {
-        transform: visible ? 'translateY(0%)' : 'translateY(-200%)',
-      }
-    },
-    mdLogoStyle() {
-      const visible = this.$route.path == '/' ? this.menuOpen : this.menuOpen || !this.topHidden
-      return {
-        transform: visible ? 'translateY(0%)' : 'translateY(-200%)',
-        opacity: visible ? 1 : 0,
-      }
-    },
-    menuStyle() {
-      return {
-        height: this.menuOpen ? '100vh' : 0,
-        background: 'rgba(0,0,0,.75)',
-        transform: this.menuOpen ? 'translateY(0%)' : 'translateY(-100%)',
-      }
-    }
-  }
 }
 </script>
 
@@ -169,7 +209,7 @@ body {
 
 .menu {
   transform: translateX(0%);
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .slide-enter-active .menu,
@@ -183,6 +223,6 @@ body {
 }
 
 .gradient {
-  background: linear-gradient(to right, rgba(0,0,0,.8), transparent)
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent);
 }
 </style>

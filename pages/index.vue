@@ -1,9 +1,13 @@
 <template>
   <div class="container mx-auto">
     <div>
-      <ImageSection src="DSC01157.jpg" large>
+      <ImageSection 
+        src="DSC01157.jpg" 
+        large>
         <ImageText class="hidden md:block md:text-right">
-          <Logo tag="h1" class="text-2xl lg:text-5xl" />
+          <Logo 
+            tag="h1" 
+            class="text-2xl lg:text-5xl" />
         </ImageText>
       </ImageSection>
 
@@ -22,10 +26,10 @@
       <ImageSection src="DSC01106.jpg">
         <ImageText class="hidden md:block text-center">
           <div class="text-xl lg:text-2xl">
-            "{{quoteText}}"
+            "{{ quoteText }}"
           </div>
           <div class="mt-2 text-right text-grey-darker text-lg lg:text-lg">
-            - {{quoteAuthor}}
+            - {{ quoteAuthor }}
           </div>
         </ImageText>
       </ImageSection>
@@ -47,7 +51,10 @@
       </TextSection>
 
       <ImageSection src="DSC01141.jpg">
-        <ImageText tag="a" class="text-center" :attrs="{class:'transition hover:text-primary-dark', href:'mailto:hi@larsson.gg'}">
+        <ImageText 
+          :attrs="{class:'transition hover:text-primary-dark', href:'mailto:hi@larsson.gg'}" 
+          tag="a" 
+          class="text-center">
           hi@larsson.gg
         </ImageText>
       </ImageSection>
@@ -66,7 +73,7 @@ export default {
     Logo,
     TextSection,
     ImageSection,
-    ImageText
+    ImageText,
   },
   data() {
     const skills = [
@@ -136,12 +143,16 @@ export default {
       'If you don’t build your dream someone will hire you to help build theirs. - Tony Gaskins',
       'Your time is limited, so don’t waste it living someone else’s life. - Steve Jobs',
       'The most common form of despair is not being who you are. - Søren Kierkegaard',
-    ].sort(_ => Math.random() - Math.random()).pop().split('-').map(str => str.trim())
+    ]
+      .sort(_ => Math.random() - Math.random())
+      .pop()
+      .split('-')
+      .map(str => str.trim())
     return {
       skills: skills,
       quoteText: quote[0],
-      quoteAuthor: quote[1]
+      quoteAuthor: quote[1],
     }
-  }
+  },
 }
 </script>
