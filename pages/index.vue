@@ -7,56 +7,46 @@
         <ImageText class="hidden md:block md:text-right">
           <Logo 
             tag="h1" 
-            class="text-2xl lg:text-5xl" />
+            class="text-2xl lg:text-5xl"/>
         </ImageText>
       </ImageSection>
 
       <TextSection>
-        <template slot="heading">
-          Hello!
-        </template>
+        <template slot="heading">This is me!</template>
         <p>
-          My name is Gustav Larsson and I'm a <span class="font-bold text-primary">programmer</span>.
-          I can <span class="font-bold text-primary">code</span>
-          pretty much anything and I'm currently working as a
-          <span class="font-bold text-primary">full-stack web-developer</span>.
+          My name is Gustav Larsson and I'm a
+          <span class="font-bold text-primary">programmer</span>
+          that can
+          <span class="font-bold text-primary">code</span>
+          pretty much
+          <span class="font-bold text-primary">anything</span>.
         </p>
       </TextSection>
 
       <ImageSection src="DSC01106.jpg">
         <ImageText class="hidden md:block text-center">
-          <div class="text-xl lg:text-2xl">
-            "{{ quoteText }}"
-          </div>
-          <div class="mt-2 text-right text-grey-darker text-lg lg:text-lg">
-            - {{ quoteAuthor }}
-          </div>
+          <div class="text-xl lg:text-2xl">"{{ quoteText }}"</div>
+          <div class="mt-2 text-right text-grey-darker text-lg lg:text-lg">- {{ quoteAuthor }}</div>
         </ImageText>
       </ImageSection>
 
       <TextSection>
-        <template slot="heading">
-          Skills
-        </template>
+        <template slot="heading">Skills and stuff</template>
         <div class="flex flex-wrap -mx-1">
           <div
             v-for="skill in skills"
             :key="skill"
             class="text-white bg-primary p-2 m-1"
-          >
-            {{ skill }}
-          </div>
+          >{{ skill }}</div>
         </div>
-
       </TextSection>
 
       <ImageSection src="DSC01141.jpg">
-        <ImageText 
-          :attrs="{class:'transition hover:text-primary-dark', href:'mailto:hi@larsson.gg'}" 
-          tag="a" 
-          class="text-center">
-          hi@larsson.gg
-        </ImageText>
+        <ImageText
+          :attrs="{class:'transition hover:text-primary-dark', href:'mailto:hi@larsson.gg'}"
+          tag="a"
+          class="text-center"
+        >hi@larsson.gg</ImageText>
       </ImageSection>
     </div>
   </div>
