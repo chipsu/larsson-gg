@@ -1,0 +1,13 @@
+version: "2"
+services:
+  web:
+    labels:
+      io.rancher.container.pull_image: always
+    tty: true
+    image: $WEB_IMAGE
+  media:
+    image: h2non/imaginary
+    command: -cors -http-cache-ttl 31536000 -mount /data
+    volumes:
+      - $MEDIA_SOURCE:/data:ro
+stdin_open: true
