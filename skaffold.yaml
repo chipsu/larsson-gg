@@ -1,0 +1,11 @@
+apiVersion: skaffold/v2beta5
+kind: Config
+build:
+  artifacts:
+  - image: chipu/skaffold-larsson-gg
+deploy:
+  kubectl:
+    manifests:
+      - k8s*.yaml
+    flags:
+      apply: ["--prune", "-l", "project=larsson-gg"]

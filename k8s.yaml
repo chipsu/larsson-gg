@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: larsson-gg
+  labels:
+    name: larsson-gg
+    project: larsson-gg
+  annotations:
+    field.cattle.io/projectId: "c-54f7r:p-qbdln"
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: larsson-gg-ingress
+  namespace: larsson-gg
+  labels:
+    project: larsson-gg
+spec:
+  rules:
+  - host: larsson.gg
+    http:
+      paths:
+      - backend:
+          serviceName: larsson-gg-www
+          servicePort: 80
+  - host: media.larsson.gg
+    http:
+      paths:
+      - backend:
+          serviceName: larsson-gg-media
+          servicePort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: larsson-gg-www
+  namespace: larsson-gg
+  labels:
+    project: larsson-gg
+spec:
+  selector:
+    app: larsson-gg-www
+  ports:
+    - port: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: larsson-gg-media
+  namespace: larsson-gg
+  labels:
+    project: larsson-gg
+spec:
+  selector:
+    app: larsson-gg-media
+  ports:
+    - port: 9000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: larsson-gg-www
+  namespace: larsson-gg
+  labels:
+    app: larsson-gg-www
+    project: larsson-gg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: larsson-gg-www
+  template:
+    metadata:
+      labels:
+        app: larsson-gg-www
+    spec:
+      containers:
+      - name: www
+        image: chipu/skaffold-larsson-gg
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: larsson-gg-media
+  namespace: larsson-gg
+  labels:
+    app: larsson-gg-media
+    project: larsson-gg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: larsson-gg-media
+  template:
+    metadata:
+      labels:
+        app: larsson-gg-media
+    spec:
+      containers:
+      - name: media
+        image: h2non/imaginary
+        command: ["imaginary"]
+        args: ["-cors", "-http-cache-ttl", "31536000", "-mount", "/data"]
+        volumeMounts:
+        - mountPath: /data
+          name: media-volume
+      volumes:
+      - name: media-volume
+        hostPath:
+          path: "/k8s/larsson-gg/media"
+          type: DirectoryOrCreate
