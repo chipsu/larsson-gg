@@ -11,10 +11,12 @@ metadata:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: larsson-gg-ingress
+  name: larsson-gg-ingress-www
   namespace: larsson-gg
   labels:
     project: larsson-gg
+  annotations:
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
   rules:
   - host: larsson.gg
@@ -23,6 +25,16 @@ spec:
       - backend:
           serviceName: larsson-gg-www
           servicePort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: larsson-gg-ingress-media
+  namespace: larsson-gg
+  labels:
+    project: larsson-gg
+spec:
+  rules:
   - host: media.larsson.gg
     http:
       paths:
