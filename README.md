@@ -4,27 +4,34 @@
 
 ## Travis
 
-[![Build Status](https://travis-ci.org/chipsu/larsson-gg.svg?branch=master)](https://travis-ci.org/chipsu/larsson-gg)
+[![CI](https://github.com/chipsu/larsson-gg/workflows/CI/badge.svg)](https://travis-ci.org/chipsu/larsson-gg)
 
 ## Build Setup
 
 ``` bash
 # install dependencies
-$ yarn
+$ npm ci
 
 # serve with hot reload at localhost:3000
-$ yarn dev
+$ npm run dev
 
 # build for production and launch server
-$ yarn build
-$ yarn start
+$ npm run build
+$ npm run start
 
 # generate static project
-$ yarn generate
+$ npm run generate
 ```
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
 
+## Skaffold
+
+```
+skaffold dev --port-forward=True
+```
+
 ## Todo
+- Fix media 
 - Move index.vue content to markdown?
 - Blog and stuff
