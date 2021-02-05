@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ci-larsson-gg
+  name: ${K8S_PROJECT}
   labels:
-    name: ci-larsson-gg
-    project: ci-larsson-gg
+    name: ${K8S_PROJECT}
+    project: ${K8S_PROJECT}
   annotations:
     field.cattle.io/projectId: "c-54f7r:p-qbdln"
 ---
@@ -12,9 +12,9 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: larsson-gg-ingress-www
-  namespace: ci-larsson-gg
+  namespace: ${K8S_PROJECT}
   labels:
-    project: ci-larsson-gg
+    project: ${K8S_PROJECT}
   annotations:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
@@ -30,9 +30,9 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: larsson-gg-ingress-media
-  namespace: ci-larsson-gg
+  namespace: ${K8S_PROJECT}
   labels:
-    project: ci-larsson-gg
+    project: ${K8S_PROJECT}
 spec:
   rules:
   - host: media.larsson.gg
@@ -46,9 +46,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: larsson-gg-www
-  namespace: ci-larsson-gg
+  namespace: ${K8S_PROJECT}
   labels:
-    project: ci-larsson-gg
+    project: ${K8S_PROJECT}
 spec:
   selector:
     app: larsson-gg-www
@@ -59,9 +59,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: larsson-gg-media
-  namespace: ci-larsson-gg
+  namespace: ${K8S_PROJECT}
   labels:
-    project: ci-larsson-gg
+    project: ${K8S_PROJECT}
 spec:
   selector:
     app: larsson-gg-media
@@ -72,10 +72,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: larsson-gg-www
-  namespace: ci-larsson-gg
+  namespace: ${K8S_PROJECT}
   labels:
     app: larsson-gg-www
-    project: ci-larsson-gg
+    project: ${K8S_PROJECT}
 spec:
   replicas: 1
   selector:
@@ -94,10 +94,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: larsson-gg-media
-  namespace: ci-larsson-gg
+  namespace: ${K8S_PROJECT}
   labels:
     app: larsson-gg-media
-    project: ci-larsson-gg
+    project: ${K8S_PROJECT}
 spec:
   replicas: 1
   selector:

@@ -84,5 +84,4 @@ dist
 sw.*
 
 # generated stuff
-k8s.yaml
-skaffold.yaml
+manifest.*.yaml
