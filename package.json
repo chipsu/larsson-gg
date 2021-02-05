@@ -13,25 +13,21 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.0.0",
-    "@nuxtjs/pwa": "^2.6.0",
-    "cross-env": "^5.2.0",
-    "nuxt": "^2.4.5"
+    "@nuxtjs/axios": "^5.13.0",
+    "@nuxtjs/pwa": "^3.3.5",
+    "cross-env": "^7.0.3",
+    "nuxt": "^2.14.12",
+    "vue-gtag": "^1.10.0"
   },
   "devDependencies": {
-    "autoprefixer": "^8.6.4",
-    "babel-eslint": "^8.2.1",
-    "eslint": "^5.14.1",
-    "eslint-config-prettier": "^3.6.0",
-    "eslint-loader": "^2.1.2",
-    "eslint-plugin-prettier": "2.6.2",
-    "eslint-plugin-vue": "^4.0.0",
-    "glob-all": "^3.1.0",
-    "markdown-it": "^8.4.2",
+    "autoprefixer": "^9.8.6",
+    "babel-eslint": "^10.1.0",
+    "glob-all": "^3.2.1",
+    "markdown-it": "^12.0.4",
     "markdown-it-meta": "0.0.1",
-    "nodemon": "^1.18.10",
-    "prettier": "1.14.3",
-    "purgecss-webpack-plugin": "^1.4.0",
-    "tailwindcss": "~0.6.6"
+    "nodemon": "^2.0.7",
+    "prettier": "2.2.1",
+    "purgecss-webpack-plugin": "^1.6.0",
+    "tailwindcss": "^0.7.4"
   }
 }

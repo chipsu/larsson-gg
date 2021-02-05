@@ -177,7 +177,7 @@ export default {
       }
       return (
         process.env.imaginaryUrl +
-        'resize?' +
+        'crop?' +
         key +
         '=' +
         url +

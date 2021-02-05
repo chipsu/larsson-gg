@@ -12,14 +12,11 @@
       </ImageSection>
 
       <TextSection>
-        <template slot="heading">This is me!</template>
+        <template slot="heading">Hello!</template>
         <p>
-          My name is Gustav Larsson and I'm a
-          <span class="font-bold text-primary">programmer</span>
-          that can
-          <span class="font-bold text-primary">code</span>
-          pretty much
-          <span class="font-bold text-primary">anything</span>.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Et sequi amet, unde repellendus mollitia, recusandae aliquid architecto accusantium error aut, fugiat odit assumenda itaque.
+          Rem fugit aliquid id esse vitae.
         </p>
       </TextSection>
 
@@ -130,9 +127,6 @@ export default {
     ].sort()
     const quote = [
       'Live today, for tomorrow it will all be history. - Anonymous',
-      'If you don’t build your dream someone will hire you to help build theirs. - Tony Gaskins',
-      'Your time is limited, so don’t waste it living someone else’s life. - Steve Jobs',
-      'The most common form of despair is not being who you are. - Søren Kierkegaard',
     ]
       .sort(_ => Math.random() - Math.random())
       .pop()

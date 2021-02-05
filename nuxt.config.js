@@ -24,7 +24,7 @@ function markdownRoutes(root, prefix = '', index = true) {
 }
 
 module.exports = {
-  mode: 'universal',
+  target: 'static',
   env: {
     buildVersion: process.env.BUILD_VERSION || 'dev',
     imaginaryUrl: 'https://media.larsson.gg/',
@@ -57,7 +57,9 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/vue-gtag.js', 'mode': 'client' },
+  ],
 
   /*
   ** Nuxt.js modules

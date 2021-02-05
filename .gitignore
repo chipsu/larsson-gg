@@ -82,3 +82,7 @@ dist
 
 # nuxtjs/pwa
 sw.*
+
+# generated stuff
+k8s.yaml
+skaffold.yaml
